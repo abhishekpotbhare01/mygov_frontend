@@ -22,10 +22,10 @@ function Homepagecomponent() {
         <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
       </ol>
       <div className="carousel-inner">
-        <div className="carousel-item active">
+        <div className="carousel-item ">
           <img className="d-block w-100" src={one} alt="First slide" />
         </div>
-        <div className="carousel-item">
+        <div className="carousel-item active">
           <img className="d-block w-100" src={two} alt="Second slide" />
         </div>
         <div className="carousel-item">
@@ -47,13 +47,6 @@ function Homepagecomponent() {
         <div class="row mt-4">
           <div class="card-group mt-3">
             <div class="card ">
-
-              {/* <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="..."/>
-                <div class ="card-body">
-                <p class ="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </div> */}
 
               <div
                 style={{
@@ -84,7 +77,8 @@ function Homepagecomponent() {
                 ></div>
 
                 <p class="card-text ">
-                Ladli Behna Yojana की मध्‍य प्रदेश सरकार द्वारा 28 जनवरी 2023 को आरम्‍भ की गई थी। इसका उद्येश्‍य महिलाओं के स्वास्थ्य एवं पोषण तथा आर्थिक स्वावलम्बन को बढाना है। इस योजना के
+                Ladli Behna Yojana की मध्‍य प्रदेश सरकार द्वारा 28 जनवरी 2023 को आरम्‍भ की गई थी।
+                 इसका उद्येश्‍य महिलाओं के स्वास्थ्य एवं पोषण तथा आर्थिक स्वावलम्बन को बढाना है। इस योजना के
                  तहत मध्‍य प्रदेश राज्‍य की महिलाओं को 1000 रूपये प्रतिमाह प्रदान किये जाएंगे।
                 </p>
 
