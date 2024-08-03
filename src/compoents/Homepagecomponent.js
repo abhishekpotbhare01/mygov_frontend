@@ -7,15 +7,18 @@ import two from "../assets/gov/img/gov_schme.png";
 import img1 from "../assets/gov/img/ladli-behna-yojana.png"
 
 import { Navbar } from "./Navbar";
+import HomePage from "./HomePage";
 
 function Homepagecomponent() {
   return (
     <>
 
       <Navbar />
+
+      <HomePage></HomePage>
       <div class="main">
         {/**  <!-----------------------------------Slider---------------------------------->*/}
-        <div id="carouselExampleIndicators" className="carousel slide carousel-custom-height col-12" data-ride="carousel"   >
+        {/* <div id="carouselExampleIndicators" className="carousel slide carousel-custom-height col-12" data-ride="carousel"   >
       <ol className="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -40,7 +43,7 @@ function Homepagecomponent() {
         <span className="carousel-control-next-icon" aria-hidden="true"></span>
         <span className="sr-only">Next</span>
       </a>
-    </div>
+    </div> */}
 
 
         {/** <!------------------------------Cards--------------------------------> */}
