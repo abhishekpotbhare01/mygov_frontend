@@ -7,16 +7,16 @@ export function Navbar() {
   const handleClick = () => setClick(!click);
   return (
 
-  < >
+    < >
 
 
-<nav class="navbar navbar-dark bg-dark">
+      <nav class="navbar navbar-dark bg-dark">
 
         <div className="nav-container ">
-        
-         <ul className={click ? "nav-menu active" : "nav-menu"}>
-          <li>
-          <a class="navbar-brand" href="/Homepagecomponent" style={{color:"orange"}}>MyGov</a>
+
+          <ul className={click ? "nav-menu active" : "nav-menu"}>
+            <li>
+              <a class="navbar-brand" href="/Homepagecomponent" style={{ color: "orange" }}>MyGov</a>
             </li>
             <li className="nav-item">
               <NavLink
@@ -40,7 +40,7 @@ export function Navbar() {
                 About Us
               </NavLink>
             </li>
-            
+
             <li className="nav-item">
               <NavLink
                 exact
@@ -60,7 +60,19 @@ export function Navbar() {
                 className="nav-links"
                 onClick={handleClick}
               >
-                Login/Register
+                User Login
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/Adminlogincomponent"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                Admin Login
               </NavLink>
             </li>
           </ul>
@@ -69,7 +81,7 @@ export function Navbar() {
           </div>
         </div>
       </nav>
-    
+
     </>
   );
 }
