@@ -6,22 +6,19 @@ export function Navbar() {
 
   const handleClick = () => setClick(!click);
   return (
-
-    < >
-
-
+    <>
       <nav class="navbar navbar-dark bg-dark">
-
         <div className="nav-container ">
-
           <ul className={click ? "nav-menu active" : "nav-menu"}>
             <li>
-              <a class="navbar-brand" href="/Homepagecomponent" style={{ color: "orange" }}>MyGov</a>
+              <a class="navbar-brand" href="/home" style={{ color: "orange" }}>
+                MyGov
+              </a>
             </li>
             <li className="nav-item">
               <NavLink
                 exact
-                to="/Homepagecomponent"
+                to="/home"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
@@ -32,7 +29,7 @@ export function Navbar() {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/AboutUs"
+                to="/about-us"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
@@ -44,7 +41,7 @@ export function Navbar() {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/ContactUs"
+                to="/contact-us"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
@@ -55,7 +52,7 @@ export function Navbar() {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/Adminlogincomponent"
+                to="/user-login"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
@@ -67,12 +64,23 @@ export function Navbar() {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/Adminlogincomponent"
+                to="/admin-login"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
               >
                 Admin Login
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/register-user"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                Register User
               </NavLink>
             </li>
           </ul>
@@ -81,7 +89,6 @@ export function Navbar() {
           </div>
         </div>
       </nav>
-
     </>
   );
 }
