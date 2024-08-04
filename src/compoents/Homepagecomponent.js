@@ -24,7 +24,7 @@ function Homepagecomponent() {
         <div class="card-group mt-3 col-md-12">
           <div class="card ">
             <div d-flex flex-row junstify-content-center>
-              <img src={img1} />
+              <img src={img1} alt="ladli-behna-yojana" />
             </div>
 
             <div class="card-body">
@@ -39,7 +39,7 @@ function Homepagecomponent() {
 
           <div class="card ">
             <div d-flex flex-row junstify-content-center>
-              <img src={pmkisan} />
+              <img src={pmkisan} alt="pm_kisan-yojana" />
             </div>
 
             <div class="card-body">
@@ -57,7 +57,7 @@ function Homepagecomponent() {
         <div class="card-group mt-3 col-md-12">
           <div class="card ">
             <div d-flex flex-row junstify-content-center>
-              <img src={ayushmanbharat} />
+              <img src={ayushmanbharat} alt="Ayushman Bharat yojana" />
             </div>
 
             <div class="card-body">
@@ -73,7 +73,7 @@ function Homepagecomponent() {
 
           <div class="card ">
             <div d-flex flex-row junstify-content-center>
-              <img src={ujuwala} />
+              <img src={ujuwala} alt="PM Ujjwala Yojana" />
             </div>
 
             <div class="card-body">
