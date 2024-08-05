@@ -10,9 +10,6 @@ import pmkisan from "../assets/gov/img/pm_kisan.png";
 import ayushmanbharat from "../assets/gov/img/Ayushman Bharat.png";
 import ujuwala from "../assets/gov/img/PM Ujjwala Yojana.png";
 
-import pmkisan from "../assets/gov/img/pm_kisan.png";
-import ayushmanbharat from "../assets/gov/img/Ayushman Bharat.png";
-import ujuwala from "../assets/gov/img/PM Ujjwala Yojana.png";
 
 import { Navbar } from "./Navbar";
 import HomePage from "./HomePage";
