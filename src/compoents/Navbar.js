@@ -55,7 +55,7 @@ export function Navbar() {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/logincomponent"
+                to="/userlogin"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
@@ -67,7 +67,7 @@ export function Navbar() {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/logincomponent"
+                to="/Adminlogin"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
