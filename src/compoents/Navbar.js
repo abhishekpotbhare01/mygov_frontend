@@ -89,9 +89,12 @@ export function Navbar() {
           </div>
         </div>
       </nav>
+<<<<<<< HEAD
 ==== BASE ====
     
 ==== BASE ====
+=======
+>>>>>>> f8eab0428c9936c1afdf1709b62048ec4016e300
     </>
   );
 }
