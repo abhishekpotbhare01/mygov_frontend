@@ -17,9 +17,9 @@ const AddUser = async (user) => {
     }
 };
 
-const LoginUser = async (user) => {
+const LoginUser = async (loginUser) => {
     try {
-        const response = await UserClient.post('/', user);
+        const response = await UserClient.post('/', loginUser);
         return response.data;
     } catch (error) {
         console.error('Error adding user:', error);
