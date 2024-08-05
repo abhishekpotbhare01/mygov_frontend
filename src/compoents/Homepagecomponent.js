@@ -5,13 +5,10 @@ import one from "../assets/gov/img/gov2.jpg";
 import two from "../assets/gov/img/gov_schme.png";
 
 import img1 from "../assets/gov/img/ladli-behna-yojana.png";
-<<<<<<< HEAD
 
 import pmkisan from "../assets/gov/img/pm_kisan.png";
 import ayushmanbharat from "../assets/gov/img/Ayushman Bharat.png";
 import ujuwala from "../assets/gov/img/PM Ujjwala Yojana.png";
-=======
->>>>>>> f8eab0428c9936c1afdf1709b62048ec4016e300
 
 import pmkisan from "../assets/gov/img/pm_kisan.png";
 import ayushmanbharat from "../assets/gov/img/Ayushman Bharat.png";
@@ -27,7 +24,6 @@ function Homepagecomponent() {
 
       <HomePage></HomePage>
       <div class="main">
-<<<<<<< HEAD
 ==== BASE ====
         {/**  <!-----------------------------------Slider---------------------------------->*/}
         {/* <div id="carouselExampleIndicators" className="carousel slide carousel-custom-height col-12" data-ride="carousel"   >
@@ -59,8 +55,6 @@ function Homepagecomponent() {
 
 
 ==== BASE ====
-=======
->>>>>>> f8eab0428c9936c1afdf1709b62048ec4016e300
         {/** <!------------------------------Cards--------------------------------> */}
         <div class="card-group mt-3 col-md-12">
           <div class="card ">
@@ -128,12 +122,9 @@ function Homepagecomponent() {
             </div>
           </div>
         </div>
-<<<<<<< HEAD
 ==== BASE ====
 
 ==== BASE ====
-=======
->>>>>>> f8eab0428c9936c1afdf1709b62048ec4016e300
       </div>
     </>
   );
