@@ -55,12 +55,12 @@ export function Navbar() {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/Adminlogincomponent"
+                to="/logincomponent"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
               >
-                Login/Regester
+                Login/Register
               </NavLink>
             </li>
           </ul>
