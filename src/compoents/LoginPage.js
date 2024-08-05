@@ -16,7 +16,7 @@ function LoginPage(props) {
     return (
     <div className='loginform'>
     <form onSubmit={ handleSubmit }>
-      <h1> {props.name} Login </h1>
+      <h2 className='login-head'> {props.name} Login </h2>
   <div className="mb-3 ">
   <label for="email">Email Address:</label>
   <input type="email" className="form-control" placeholder='Email' id="exampleInputEmail1" aria-describedby="emailHelp"/>
@@ -45,6 +45,7 @@ function LoginPage(props) {
             <button type="button" class="btn btn-outline-primary btn-block">
               <i className="fab fa-facebook-f mr-2"></i> Login with Facebook
             </button>
+            <div className="text-center mt-2"> New user? <a href="#">Sign up</a></div>
       </div>
 </form>
 </div>
