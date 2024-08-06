@@ -1,3 +1,7 @@
+import logo from './logo.svg';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Homepagecomponent from './compoents/Homepagecomponent';
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -26,6 +30,13 @@ function App() {
         </Routes>
       </Router>
 
+       <Router>
+      <Routes>
+         <Route path="/" element={<Homepagecomponent />} />
+            <Route path="/logincomponent" element={<LoginPage/>}>
+            </Route>
+            </Routes>
+            </Router>
     </div>
   );
 }
