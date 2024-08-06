@@ -89,9 +89,6 @@ export function Navbar() {
           </div>
         </div>
       </nav>
-==== BASE ====
-    
-==== BASE ====
     </>
   );
 }
