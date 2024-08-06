@@ -33,7 +33,13 @@ function App() {
        <Router>
       <Routes>
          <Route path="/" element={<Homepagecomponent />} />
-            <Route path="/logincomponent" element={<LoginPage/>}>
+            <Route path="/userlogin" element={<LoginPage/>}>
+            </Route>
+            <Route path="/Adminlogin" element={<LoginPage name={Admin}/>}>
+            </Route>
+            <Route path="/AboutUs" element={<AboutUs/>}>
+            </Route>
+            <Route path="/ContactUs" element={<ContactUs/>}>
             </Route>
             </Routes>
             </Router>
