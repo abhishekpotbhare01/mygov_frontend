@@ -24,7 +24,7 @@ function App() {
           <Route path="/logincomponent" element={<LoginPage />} />
           <Route path="/ContactUs" element={<ContactUs />} />
           {/* <Route exact={true} path="/">
-              < />ō̥
+              < />
             </Route> */}
         </Routes>
       </Router>
