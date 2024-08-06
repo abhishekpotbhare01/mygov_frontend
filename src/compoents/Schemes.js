@@ -2,7 +2,7 @@ import React from "react";
 import "../compoents/Schemes.css";
 function Schemes(props) {
   return (
-    <div className="card" id={props.name}>
+    <div className="schemes_card" id={props.name}>
       <img src={props.img} className="card-img-top" alt="Scheme one" />
       <div className="card-body">
         <h5 className="card-title">{props.name}</h5>
