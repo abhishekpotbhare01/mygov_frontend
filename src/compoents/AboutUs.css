@@ -1,0 +1,107 @@
+/* AboutUs.css */
+
+.about-us {
+    font-family: Arial, sans-serif;
+    /* padding: 20px; */
+    background-color:  rgb(215, 233, 242);
+  }
+  
+  .about-us-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .about-us-header h1 {
+    font-size: 2rem;
+    margin: 0;
+  }
+  
+  .breadcrumb {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #555555;
+  }
+  
+  .breadcrumb a {
+    color: #007BFF;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  
+  .about-us-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 0;
+    background-color: rgb(215, 233, 242);
+    border-radius: 7px;
+    padding: 7px;
+  }
+  
+  .video-section {
+    /* border: 2px solid black; */
+    width: 68%;
+    margin-right: 10%;
+    max-width: 550px;
+    height:250px;
+    border-radius: 10px;
+  }
+  
+  .text-section {
+    max-width: 550px;
+  }
+  
+  .text-section h2 {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 10px 0 10px;
+  }
+  
+  .text-section p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .text-section .vision::before,
+  .text-section .mission::before {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    /* background: url('path/to/icon.png') no-repeat center center / contain; */
+  }
+  .Aboutdata{
+    /* background-color: #e0efff; */
+    margin-top: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+  }
+  .img-info{
+    position: absolute; 
+    inset: 0px; 
+    box-sizing: border-box; 
+    padding: 0px; 
+    border: none; 
+    margin-left: 50%; 
+    margin-top: 33%;
+    display: block; 
+    width: 0px; 
+    height: 0px; 
+    min-width: 60%; 
+    max-width: 65%; 
+    min-height: 20%; 
+    max-height: 20%;
+    object-fit: contain;
+  }
+  .abouttext{
+    width: 65%;
+    padding-left: 10px;
+    text-align: justify;
+    padding-bottom: 60px;
+  }
+  

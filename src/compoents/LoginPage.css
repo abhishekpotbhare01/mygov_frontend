@@ -1,18 +1,26 @@
 .loginform{
  margin-left: 32%;
- margin-top: 10%;
- height: 300px;
-    width:35%;
+ margin-top: 3%;
+ width:35%;
  border: 2px solid transparent;
- padding: 10px;
+ padding: 15px;
  border-radius: 6px; 
- background-color: #dcdbdbe7;
+ background-color: #a3b3de3e;
+}
+form{
+    text-align: left;
+}
+.forgot-div{
+   display: flex;
+   justify-content: space-between; 
 }
 h1{
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 8%;
+    text-align: center;
 }
 .login-btn{
     margin-top: 4%;
-    font-weight: 800;
+    font-weight:bold;
+    margin-bottom: 15px;
 }

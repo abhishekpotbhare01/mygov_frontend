@@ -5,8 +5,12 @@ import Homepagecomponent from "./compoents/Homepagecomponent";
 import RegisterUser from "./compoents/RegisterUser";
 import AdminDashboard from "./compoents/AdminDashboard";
 import LoginPage from './compoents/LoginPage';
+import SchemePage from './SchemePage';
+import ContactUs from './compoents/ContactUs';
+import AboutUs from './compoents/AboutUs';
 
 function App() {
+  const Admin ="Admin";  //pass to admin login form
   return (
     <div className="App">
       <Router>
