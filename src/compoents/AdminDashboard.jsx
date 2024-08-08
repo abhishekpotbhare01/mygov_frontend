@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar } from './Navbar'
+import { AdminNavbar } from './AdminNavbar';
 
 const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('Pending');
@@ -20,7 +21,7 @@ const AdminDashboard = () => {
 
     return (
         <>
-            <Navbar />
+         <AdminNavbar></AdminNavbar>
             <div className="container-fluid mt-3">
                 <div className="row">
                     <div className="col-md-3">

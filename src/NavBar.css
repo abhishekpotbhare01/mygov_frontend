@@ -17,6 +17,13 @@
   height: 80px;
   max-width: 1500px;
 }
+.left-nav {
+  display: flex;
+}
+
+.right-nav {
+  display: flex;
+}
 
 .nav-logo {
   color: #fffc47;
