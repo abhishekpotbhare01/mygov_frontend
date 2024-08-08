@@ -1,0 +1,29 @@
+.form{
+    margin-left: 32%;
+  margin-top: 1%;
+  width: 40%;
+  border: 3px solid transparent;
+  padding: 15px;
+  min-height: fit-content;
+  border-radius: 8px;
+  box-shadow: 10px 10px 3px 1px rgba(0, 0, 0, 0.75);
+  background-color: #a3b3de3e;
+  text-align: left;
+  margin-bottom: 0;
+
+}
+h3{
+    text-align: center;
+    font-weight: 600;
+}
+label{
+    font-size: medium;
+    margin-left: 10px;;
+}
+button{
+    margin-top: 10px;
+    margin-left: 5%;
+    padding: 10px;
+    font-weight: 700;
+    width:130px;
+}
