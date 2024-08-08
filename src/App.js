@@ -7,15 +7,14 @@ import SchemePage from "./SchemePage";
 import AboutUs from "./compoents/AboutUs";
 import ContactUs from "./compoents/ContactUs";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import AddNewScheme from "./compoents/AddNewScheme";
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<AddNewScheme />} />
-          {/* <Route path="/" element={<Homepagecomponent />} />
+          <Route path="/Addnewscheme" element={<AddNewScheme />} />
+           <Route path="/" element={<Homepagecomponent />} />
           <Route path="/home" element={<Homepagecomponent />} />
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/admin" element={<AdminDashboard />} />
@@ -23,7 +22,7 @@ function App() {
           <Route path="/user-login" element={<LoginPage />} />
           <Route path="/schemepage" element={<SchemePage />} />
           <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/contact-us" element={<ContactUs />} /> */}
+          <Route path="/contact-us" element={<ContactUs />} /> 
           {/* <Route exact={true} path="/">
               < />
             </Route> */}
