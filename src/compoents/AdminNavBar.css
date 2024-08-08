@@ -66,3 +66,15 @@
     z-index: 1;
   }
 }
+
+select {
+  text-align: center;
+  padding-right: 10%;
+  padding-left: 10%;
+  text-align-last: center; 
+}
+
+option {
+  text-align: center;
+}
+

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar } from './Navbar'
 import { AdminNavbar } from './AdminNavbar';
+import './AdminComponent.css'
 
 const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('Pending');
@@ -18,10 +19,33 @@ const AdminDashboard = () => {
     };
 
     const filteredUsers = users.filter(user => user.status === activeTab);
-
+    const scheme=["AGRICULTURE","EDUCATION","HEALTH","EMPLOYMENT","INFRASTRUCTURE","WOMEN_EMPOWERMENT","CHILD_WELFARE","SENIOR_CITIZEN","HOUSING","SOCIAL_WELFARE","ENVIRONMENT","RURAL_DEVELOPMENT","URBAN_DEVELOPMENT","FINANCIAL_INCLUSION","SKILL_DEVELOPMENT","TRANSPORT","TOURISM","TECHNOLOGY",]
     return (
         <>
          <AdminNavbar></AdminNavbar>
+         <div className='schemelist'>
+            <label htmlFor="schemelist">Choose Category</label>
+            <select name="schemelist" id="schemelist">
+                <option value="">AGRICULTURE</option>
+                <option value="">EDUCATION</option>
+                <option value="">HEALTH</option>
+                <option value="">INFRASTRUCTURE</option>
+                <option value="">WOMEN_EMPOWERMENT</option>
+                <option value="">CHILD_WELFARE</option>
+                <option value="">SENIOR_CITIZEN</option>
+                <option value="">HOUSING</option>
+                <option value="">SOCIAL_WELFARE</option>
+                <option value="">ENVIRONMENT</option>
+                <option value="">RURAL_DEVELOPMENT</option>
+                <option value="">URBAN_DEVELOPMENT</option>
+                <option value="">FINANCIAL_INCLUSION</option>
+                <option value="">SKILL_DEVELOPMENT</option>
+                <option value="">TRANSPORT</option>
+                <option value="">TOURISM</option>
+                <option value="">TECHNOLOGY</option>
+
+            </select>
+         </div>
             <div className="container-fluid mt-3">
                 <div className="row">
                     <div className="col-md-3">
