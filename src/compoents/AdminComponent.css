@@ -1,0 +1,14 @@
+select {
+    text-align: center;
+    
+    text-align-last: center; 
+  }
+  
+  option {
+    text-align: center;
+  }
+  .schemelist{
+    padding-right: 40%;
+    padding-left: 40%;
+    display: flex;
+  }
