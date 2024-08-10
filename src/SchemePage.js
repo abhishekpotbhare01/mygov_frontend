@@ -8,13 +8,13 @@ import three from "../src/assets/gov/img/ladli-behna-yojana.png";
 import { useEffect, useState } from "react";
 
 function SchemePage() {
-  const name1 = "PM kisan yojna";
-  const name2 = "PM Awas Yojna";
-  const name3 = "PM Ladli yojna";
-
+  
     const [schemes, setSchemes] = useState([]);
+    const [searchScheme, setSearchSchemes]=useState('');
+    const [filteredSchemes,setfilteredSchemes]=useState([]);
 
 
+    //fetch schemes when componnent is rendered;
     useEffect(() => {
 
       const fetchSchemes = async () => {
@@ -29,6 +29,19 @@ function SchemePage() {
       fetchSchemes(); // Call the async function
   }, []);
   
+   // Update filtered schemes when search input changes
+    useEffect(()=>{
+      useEffect(() => {
+        if (searchInput) {
+          const filtered = schemes.filter(scheme =>
+            scheme.schemeName.toLowerCase().includes(searchInput.toLowerCase())
+          );
+          setFilteredSchemes(filtered);
+        } else {
+          setFilteredSchemes(schemes); // Reset to all schemes if the search is cleared
+        }
+      }, [searchInput, schemes]);
+    })
 
   return (
     <div>
@@ -39,11 +52,6 @@ function SchemePage() {
           View scheme status
         </button>
       </div>
-      {/* <div className="schemes">
-        <Schemes name={name1} img={one}></Schemes>
-        <Schemes name={name2} img={two}></Schemes>
-        <Schemes name={name3} img={three}></Schemes>
-      </div>  */}
       
       <div className="schemes">
 
