@@ -9,6 +9,7 @@ import ContactUs from "./compoents/ContactUs";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AddNewScheme from "./compoents/AddNewScheme";
 import FarmerSchemeRegistration from "./compoents/FarmerSchemeRegistration";
+import StudentSchemeForm from "./compoents/Forms/StudentSchemeForm";
 
 function App() {
   return (
@@ -25,8 +26,12 @@ function App() {
           <Route path="/schemepage" element={<SchemePage />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/sudent-scheme-form" element={<StudentSchemeForm />} />
 
-          <Route path="/farmer-apply" element={<FarmerSchemeRegistration></FarmerSchemeRegistration>} />
+          <Route
+            path="/farmer-apply"
+            element={<FarmerSchemeRegistration></FarmerSchemeRegistration>}
+          />
           {/* <Route exact={true} path="/">
               < />
             </Route> */}

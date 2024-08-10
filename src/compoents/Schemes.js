@@ -10,7 +10,7 @@ function Schemes(props) {
           Some quick example text to build on the card title and make up the
           bulk of the card's content.
         </p>
-        <a href="/farmer-apply" className="btn btn-primary">
+        <a href={props.href} className="btn btn-primary">
           Apply
         </a>
       </div>
