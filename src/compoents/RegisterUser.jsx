@@ -13,6 +13,8 @@ const RegisterUser = () => {
         age: '',
         password: '',
         confirmPassword: '',
+        fname: '',
+        lname: ''
     });
 
     const handleChange = (e) => {
@@ -111,24 +113,26 @@ const RegisterUser = () => {
                     <div className="form-group">
 
                         <input
-                            type="number"
+                            type="text"
                             className="form-control"
                             id="fname"
                             name="fname"
                             value={formData.fname}
                             onChange={handleChange}
-                            placeholder='Enter Age'
+                            placeholder='Enter First Name'
                         />
                     </div>
+
                     <div className="form-group">
+
                         <input
-                            type="number"
+                            type="text"
                             className="form-control"
-                            id="age"
-                            name="age"
-                            value={formData.age}
+                            id="lname"
+                            name="lname"
+                            value={formData.lname}
                             onChange={handleChange}
-                            placeholder='Enter Age'
+                            placeholder='Enter last Name'
                         />
                     </div>
                     <div className="form-group d-flex flex-row">
