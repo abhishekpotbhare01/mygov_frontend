@@ -14,6 +14,9 @@ const AdminDashboard = () => {
         { id: 6, name: 'User 6', status: 'Pending' },
     ]);
 
+    const pendingCount = users.filter(user => user.status === 'Pending').length;
+    const approvedCount = users.filter(user => user.status === 'Approved').length;
+
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
@@ -48,7 +51,23 @@ const AdminDashboard = () => {
            
              
          </div>
-            <div className="container-fluid mt-3">
+         
+         
+         <div className="container-fluid mt-3">
+                <div className="row mb-3">
+                    <div className="col-md-6">
+                        <div className="status-box pending-box">
+                            <h4>Total Pending</h4>
+                            <p>{pendingCount}</p>
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="status-box approved-box">
+                            <h4>Total Approved</h4>
+                            <p>{approvedCount}</p>
+                        </div>
+                    </div>
+                </div>
                 <div className="row">
                     <div className="col-md-3">
                         <div className="list-group">
@@ -82,3 +101,10 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
+
+
+
+
+
+
