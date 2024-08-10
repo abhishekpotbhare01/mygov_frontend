@@ -27,7 +27,7 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
 
           <Route path="/farmer-apply" element={<FarmerSchemeRegistration></FarmerSchemeRegistration>} />
-          {/* <Route exact={true} path="/">
+           {/* <Route exact={true} path="/">
               < />
             </Route> */}
         </Routes>
