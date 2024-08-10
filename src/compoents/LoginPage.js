@@ -1,18 +1,42 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
 import { Navbar } from "./Navbar";
+import UserService from '../service/UserService';
+
+import { useNavigate } from "react-router-dom";
 
 function LoginPage(props) {
-  // handler submit function
-  let [email, setemail] = useState("");
+
+  const navigate = useNavigate();
+
+
+  let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-  const handleSubmit = (event) => {
-    //incomplete code for login
+
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setemail(event.target.email);
-    setPassword(event.target.password);
-    // console.log(email,password)
-  };
+
+    const user = {
+      "email": email,
+      "password": password
+    }
+
+    try {
+      const resp = await UserService.LoginUser(user);
+
+      alert("Login Successfull....!!!");
+      navigate("/schemepage");
+
+    }
+    catch (error) {
+
+      console.error("error while Login ", error);
+      alert("Login Failed..!!")
+    }
+  }
+
+
   return (
     <>
       <Navbar />
@@ -20,13 +44,14 @@ function LoginPage(props) {
         <form onSubmit={handleSubmit}>
           <h2 className="login-head"> {props.name} Login </h2>
           <div className="mb-3 ">
-            <label for="email">Email Address:</label>
+            <label htmlFor="email">Email Address:</label>
             <input
               type="email"
               className="form-control"
               placeholder="Email"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -39,6 +64,7 @@ function LoginPage(props) {
               className="form-control"
               placeholder="Password"
               id="exampleInputPassword1"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="form-group form-check forgot-div">
@@ -60,18 +86,20 @@ function LoginPage(props) {
           <button type="submit" className="btn btn-primary btn-block login-btn">
             Submit
           </button>
-          <div class="text-center">
-            {/* <p>or sign up with:</p>
-            <button type="button" className="btn btn-outline-primary btn-block">
-              <i className="fab fa-google mr-2"></i> Login with Google
-            </button>
-            <button type="button" class="btn btn-outline-primary btn-block">
-              <i className="fab fa-facebook-f mr-2"></i> Login with Facebook
-            </button> */}
-            {/* <div className="text-center mt-2">
+          <div className="text-center">
+            {/* {<div>  <p>or sign up with:</p>
+              <button type="button" className="btn btn-outline-primary btn-block">
+                <i className="fab fa-google mr-2"></i> Login with Google
+              </button>
+              <button type="button" class="btn btn-outline-primary btn-block">
+                <i className="fab fa-facebook-f mr-2"></i> Login with Facebook
+              </button></div>}
+
+
+            {<div className="text-center mt-2">
               {" "}
               New user? <a href="#">Sign up</a>
-            </div> */}
+            </div>} */}
           </div>
         </form>
       </div>

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Navbar } from './Navbar';
 import UserService from '../service/UserService';
-
+import { useNavigate } from 'react-router-dom';
 
 const RegisterUser = () => {
+
+
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -33,15 +36,31 @@ const RegisterUser = () => {
         }
 
         try {
-            const response = await UserService.AddUser(formData);
-            setSuccessMessage('Form submitted successfully');
+
+            const resp = await UserService.RegisterUser(formData);
+            setSuccessMessage('Registration Successful');
             setErrorMessage('');
+            console.log(resp);
+            alert("Registration Successful")
+
+            navigate('/user-login');
+
+
+
+
         } catch (error) {
-            console.error('Form submission failed:', error);
-            setErrorMessage('Form submission failed: ' + error.message);
-            setSuccessMessage('');
+
+            console.error("error while registration ", error);
+            alert("Registration Failed..!!")
+
+
         }
-    };
+
+
+
+    }
+
+
 
     const [showPassword, setShowPassword] = useState(false);
     const handleTogglePassword = () => setShowPassword(!showPassword);
@@ -78,6 +97,30 @@ const RegisterUser = () => {
                     </div>
                     <div className="form-group">
 
+                        <input
+                            type="number"
+                            className="form-control"
+                            id="age"
+                            name="age"
+                            value={formData.age}
+                            onChange={handleChange}
+                            placeholder='Enter Age'
+                        />
+                    </div>
+
+                    <div className="form-group">
+
+                        <input
+                            type="number"
+                            className="form-control"
+                            id="fname"
+                            name="fname"
+                            value={formData.fname}
+                            onChange={handleChange}
+                            placeholder='Enter Age'
+                        />
+                    </div>
+                    <div className="form-group">
                         <input
                             type="number"
                             className="form-control"

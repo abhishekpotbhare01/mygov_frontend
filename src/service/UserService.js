@@ -1,30 +1,39 @@
 import axios from 'axios';
 
-const UserClient = axios.create({
-    baseURL: "http://localhost:8081/user",
-    headers: {
-        'Content-Type': 'application/json'
-    },
-});
+const UserClient = axios.create(
+    {
+        baseURL: "http://localhost:8080/user",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
 
-const AddUser = async (user) => {
+
+const RegisterUser = async (user) => {
     try {
-        const response = await UserClient.post('/', user);
-        return response.data;
+        const resp = await UserClient.post("/", user);
+
+        return resp.data;
+
     } catch (error) {
-        console.error('Error adding user:', error);
+        console.error('Error while Registering the user:', error);
         throw error;
     }
-};
+}
+
+
 
 const LoginUser = async (loginUser) => {
     try {
-        const response = await UserClient.post('/', loginUser);
-        return response.data;
+
+        const resp = await UserClient.post('/login', loginUser);
+
+        return resp.data;
+
     } catch (error) {
         console.error('Error adding user:', error);
         throw error;
     }
 };
 
-export default { AddUser };
+export default { RegisterUser, LoginUser };

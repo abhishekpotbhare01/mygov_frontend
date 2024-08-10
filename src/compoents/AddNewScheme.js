@@ -68,4 +68,4 @@ function AddNewScheme() {
   )
 }
 
-export default AddNewScheme
+export default AddNewScheme;
