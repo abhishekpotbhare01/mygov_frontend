@@ -19,7 +19,7 @@ const AdminDashboard = () => {
                 const res = await SchemeClient.GetAllSchemes();
                 setSchemesDetails(res)
                 const res1 = await AdminService.GetAllSchemesById(1, activeTab);
-                setApplications(res1); 
+                setApplications(res1);
             } catch (error) {
 
                 console.error('SchemeClient or SchemeClient.getSchemes is not defined');
@@ -36,7 +36,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await AdminService.GetAllSchemesById(1, activeTab);
+                const res = await AdminService.GetAllSchemesById(2, activeTab);
                 setApplications(res); // Ensure res is the correct data structure
                 console.log('Applications:', res);
             } catch (error) {
@@ -76,12 +76,14 @@ const AdminDashboard = () => {
     const schemeNames = schemesDetails.map((scheme) => {
         const schemeNames = {
             "schemeId": scheme.schemeId,
-            "name": scheme.name
+            "name": scheme.schemeName
         }
 
         return schemeNames;
 
     });
+
+    console.log(schemeNames)
 
 
     return (
@@ -138,9 +140,15 @@ const AdminDashboard = () => {
 
                     <div className="col-md-9">
                         {applications.map((app) => (
-                            <div key={`${app.farmerScheme.userId.userId}`} className="card mb-3">
+                            <div key={`${app.farmerScheme ? app.farmerScheme.userId.userId : app.studentScheme ? app.studentScheme.userId.userId : app.id}`} className="card mb-3">
                                 <div className="card-body d-flex justify-content-between align-items-center">
-                                    <span>{`${JSON.stringify(  app.farmerScheme.userId)}`}</span>
+                                    {app.farmerScheme ? (
+                                        <span>{JSON.stringify(app.farmerScheme.userId.email)}</span>
+                                    ) : app.studentScheme ? (
+                                        <span>{JSON.stringify(app.studentScheme.userId.email)}</span>
+                                    ) : (
+                                        <span>No scheme found</span>
+                                    )}
                                     <button className="btn btn-outline-primary btn-sm">See Details</button>
                                 </div>
                             </div>
