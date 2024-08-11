@@ -21,6 +21,19 @@ const getAllSchemes=async ()=>{
     console.log("error while getting scheme data!!!",error);
     throw error;
 }
+}
+const getAllSchemeId=async (userid)=>{
+    try{
+     
+     const resp=await schemes.get("/userId/"+1);
+     
+     return resp.data;
+     
+ }catch(error)
+ {
+     console.log("error while getting scheme id data!!!",error);
+     throw error;
+ }
 
 };
-export default { getAllSchemes };
+export default { getAllSchemes,getAllSchemeId };

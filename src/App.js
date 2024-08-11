@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AddNewScheme from "./compoents/AddNewScheme";
 import FarmerSchemeRegistration from "./compoents/FarmerSchemeRegistration";
 import StudentSchemeForm from "./compoents/Forms/StudentSchemeForm";
+import WomenSchemeForm from "./compoents/Forms/WomenSchemeForm";
 
 function App() {
   return (
@@ -26,12 +27,22 @@ function App() {
           <Route path="/schemepage" element={<SchemePage />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/sudent-scheme-form" element={<StudentSchemeForm />} />
+          <Route
+            path="/schemepage/student-scheme-form"
+            element={<StudentSchemeForm />}
+          />
+{/* 
+          <Route
+            path="/schemepage/farmer-scheme-form"
+            element={< />}
+          /> */}
 
           <Route
-            path="/farmer-apply"
-            element={<FarmerSchemeRegistration></FarmerSchemeRegistration>}
+            path="/schemepage/women-scheme-form"
+            element={< WomenSchemeForm/>}
           />
+
+         
           {/* <Route exact={true} path="/">
               < />
             </Route> */}
