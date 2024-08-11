@@ -24,7 +24,7 @@ const GetAllSchemes = async () => {
 const getAllSchemeId=async (userid)=>{
     try{
      
-     const resp=await schemes.get("/userId/"+1);
+     const resp=await SchemeClient.get("/userId/"+1);
      
      return resp.data;
      
@@ -35,4 +35,4 @@ const getAllSchemeId=async (userid)=>{
  }
 
 };
-export default { getAllSchemes,getAllSchemeId };
+export default { GetAllSchemes,getAllSchemeId };

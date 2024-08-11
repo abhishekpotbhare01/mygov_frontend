@@ -20,7 +20,7 @@ function SchemePage() {
 
       const fetchSchemes = async () => {
           try {
-              const resp = await SchemeService.getAllSchemes();
+              const resp = await SchemeService.GetAllSchemes();
               setSchemes(resp);
           } catch (error) {
               console.error("Error while fetching schemes:", error);
