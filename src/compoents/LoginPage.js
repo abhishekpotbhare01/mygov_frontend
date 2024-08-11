@@ -1,41 +1,37 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
 import { Navbar } from "./Navbar";
-import UserService from '../service/UserService';
+import UserService from "../service/UserService";
 
 import { useNavigate } from "react-router-dom";
 
 function LoginPage(props) {
-
   const navigate = useNavigate();
-
 
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const user = {
-      "email": email,
-      "password": password
-    }
+      email: email,
+      password: password,
+    };
 
     try {
       const resp = await UserService.LoginUser(user);
 
+      console.log("login response  is ", resp);
+      localStorage.setItem("loginResponse", JSON.stringify(resp));
+
       alert("Login Successfull....!!!");
       navigate("/schemepage");
-
-    }
-    catch (error) {
-
+    } catch (error) {
       console.error("error while Login ", error);
-      alert("Login Failed..!!")
+      alert("Login Failed..!!");
     }
-  }
-
+  };
 
   return (
     <>
