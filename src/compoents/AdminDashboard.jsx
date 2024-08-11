@@ -18,6 +18,8 @@ const AdminDashboard = () => {
             try {
                 const res = await SchemeClient.GetAllSchemes();
                 setSchemesDetails(res)
+                const res1 = await AdminService.GetAllSchemesById(1, activeTab);
+                setApplications(res1); 
             } catch (error) {
 
                 console.error('SchemeClient or SchemeClient.getSchemes is not defined');
@@ -88,13 +90,15 @@ const AdminDashboard = () => {
             <div className='schemelist'>
                 <label htmlFor="schemelist">Choose Scheme</label>
                 <select name="schemelist" id="schemelist">
-
-                    {schemeNames.map((scheme, index) => {
-                        return (
-                            <option key={index} value={scheme.schemeId}>{scheme.name.toUpperCase()}</option>
-                        )
-                    })}
-
+                    {schemeNames && schemeNames.length > 0 ? (
+                        schemeNames.map((scheme, index) => (
+                            <option key={index} value={scheme.schemeId}>
+                                {scheme.name ? scheme.name.toUpperCase() : "Unnamed Scheme"}
+                            </option>
+                        ))
+                    ) : (
+                        <option value="">No Schemes Available</option>
+                    )}
                 </select>
 
 
@@ -134,9 +138,9 @@ const AdminDashboard = () => {
 
                     <div className="col-md-9">
                         {applications.map((app) => (
-                            <div key={user.id} className="card mb-3">
+                            <div key={`${app.farmerScheme.userId.userId}`} className="card mb-3">
                                 <div className="card-body d-flex justify-content-between align-items-center">
-                                    <span>{app.}</span>
+                                    <span>{`${JSON.stringify(  app.farmerScheme.userId)}`}</span>
                                     <button className="btn btn-outline-primary btn-sm">See Details</button>
                                 </div>
                             </div>
@@ -149,10 +153,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-
-
-
-
-
-
-
