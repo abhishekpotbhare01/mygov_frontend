@@ -1,6 +1,12 @@
 import React from "react";
 import "../compoents/Schemes.css";
+import { useNavigate } from 'react-router-dom';
 function Schemes(props) {
+  const navigate = useNavigate();
+
+  const handleClick=()=>{
+    navigate('/sudent-scheme-form')
+  }
   return (
     <div className="schemes_card"
      id= {props.scheme.schemeName}
@@ -13,12 +19,14 @@ function Schemes(props) {
         </h5>
         <p className="card-text">
           {props.scheme.schemeDescription}
-          {/* Some quick example text to build on the card title and make up the
-          bulk of the card's content. */}
+         
         </p>
-        <a href="/farmer-apply" className="btn btn-primary">
+        {/* <a href={props.href} className="btn btn-primary">
           Apply
-        </a>
+        </a> */}
+        <button type="button"onClick={handleClick} className="btn btn-primary btn-block col-md-6">
+                            Apply
+                        </button>
       </div>
     </div>
   );

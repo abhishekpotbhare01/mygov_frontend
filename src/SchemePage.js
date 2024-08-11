@@ -1,11 +1,13 @@
-import React  from "react";
+import React from "react";
 import "./SchemePage.css";
-import SchemeService  from './service/SchemeService'
+import SchemeService from "./service/SchemeService";
 import Schemes from "./compoents/Schemes";
 import one from "../src/assets/gov/img/gov2.jpg";
 import two from "../src/assets/gov/img/gov_schme.png";
 import three from "../src/assets/gov/img/ladli-behna-yojana.png";
 import { useEffect, useState } from "react";
+import four from "../src/assets/gov/img/Midday-Meal-Scheme.png";
+import { Navbar } from "./compoents/Navbar";
 
 function SchemePage() {
   
@@ -30,42 +32,45 @@ function SchemePage() {
   }, []);
   
    // Update filtered schemes when search input changes
-    useEffect(()=>{
       useEffect(() => {
-        if (searchInput) {
+        if (searchScheme) {
           const filtered = schemes.filter(scheme =>
-            scheme.schemeName.toLowerCase().includes(searchInput.toLowerCase())
-          );
-          setFilteredSchemes(filtered);
+            scheme.schemeName.toLowerCase().includes(searchScheme.toLowerCase()));
+          setfilteredSchemes(filtered);
         } else {
-          setFilteredSchemes(schemes); // Reset to all schemes if the search is cleared
+          setfilteredSchemes(schemes); // Reset to all schemes if the search is cleared
         }
-      }, [searchInput, schemes]);
-    })
+      }, [searchScheme, schemes]);
+    
 
   return (
     <div>
       <h1>Scheme Page</h1>
       <div className="maindiv">
-        <input type="text" placeholder="Enter SchemeName" id="exampleInput" />
+        
+        {/* search schemes  */}
+        <input type="text"
+         placeholder="Enter SchemeName" 
+          value={searchScheme}
+        onChange={(e) => setSearchSchemes(e.target.value)} 
+        id="exampleInput" />
+
+        {/* view schemes button */}
         <button type="button" className="btn btn-primary">
           View scheme status
         </button>
       </div>
       
+        {/* scheme cards */}
       <div className="schemes">
-
-      {
-      schemes.map((scheme, index) => {
-        return (
-          <div key={index} >
-            <Schemes scheme={scheme} img={one} />
-          </div>
-        );
-      })
-    
-  }
-  </div>   
+        {filteredSchemes.map((scheme, index) => {
+          return (
+            <div key={index}>
+              <Schemes scheme={scheme} img={one} />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
