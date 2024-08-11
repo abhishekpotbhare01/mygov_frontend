@@ -26,7 +26,20 @@ function App() {
           <Route path="/schemepage" element={<SchemePage />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/sudent-scheme-form" element={<StudentSchemeForm />} />
+          <Route
+            path="/schemepage/sudent-scheme-form"
+            element={<StudentSchemeForm />}
+          />
+
+          {/* <Route
+            path="/schemepage/farmer-scheme-form"
+            element={< />}
+          />
+
+          <Route
+            path="/schemepage/women-scheme-form"
+            element={< />}
+          /> */}
 
           <Route
             path="/farmer-apply"

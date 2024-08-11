@@ -52,14 +52,26 @@ const StudentSchemeForm = () => {
     try {
       console.log("studentData is", studentData)
       localStorage.setItem("studentData", JSON.stringify(studentData))
-      // get login user Id
-      // let userId = localStorage.getItem("userData").userId
+
+      // get login userId
+      let userId = localStorage.getItem("loginResponse");
+      if (!userId) {
+        throw new Error("Login response not found in local storage");
+      }
+      userId = JSON.parse(userId).userId;
+
 
       // get schemeId  
+      let schemeId = localStorage.getItem("schemeMasterData");
+      if (!schemeId) {
+        throw new Error("Scheme master data not found in local storage");
+      }
+      schemeId = JSON.parse(schemeId).schemeId;
+
 
       // axios call
-      const resp = await StudentService.AddStudentScheme(studentData, 4, 1);
-      console.log(resp);
+      const resp = await StudentService.AddStudentScheme(studentData, userId, schemeId);
+      console.log("Student Scheme post response: ", resp);
       alert("Student Added....!!!");
       // navigate("/schemepage");
 
@@ -144,7 +156,7 @@ const StudentSchemeForm = () => {
               name="grade"
               value={studentData.studentDetails.grade}
               onChange={handleChange}
-              placeholder='Enter grade '
+              placeholder="Enter grade"
               required
             />
           </div>
@@ -209,7 +221,7 @@ const StudentSchemeForm = () => {
               required
             />
           </div>
-          <div className="form-group mb-3">
+          <div className="form-group mb-5">
             <input
               type="text"
               className="form-control"
@@ -221,11 +233,9 @@ const StudentSchemeForm = () => {
               required
             />
           </div>
-          <div className="d-flex justify-content-between">
-            <button type="submit" className="btn btn-primary btn-block">
-              Register
-            </button>
-          </div>
+          <button style={{ marginLeft: "0px" }} type="submit" className="btn btn-primary btn-block">
+            Register
+          </button>
         </form>
       </div>
     </>
