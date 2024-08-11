@@ -1,27 +1,26 @@
-import axios from "axios";
+import axios from 'axios';
 
-// Create an axios instance with base URL and headers
-const schemes=axios.create(
- {
-   baseURL: "http://localhost:8080/scheme",
-   headers: {
+const SchemeClient = axios.create(
+    {
+        baseURL: "http://localhost:8080/scheme",
+        headers: {
             'Content-Type': 'application/json'
-        }     
-});
+        }
+    });
 
-const getAllSchemes=async ()=>{
-   try{
-    
-    const resp=await schemes.get("")
-    
-    return resp.data;
-    
-}catch(error)
-{
-    console.log("error while getting scheme data!!!",error);
-    throw error;
+
+const GetAllSchemes = async () => {
+
+    try {
+        const response = await SchemeClient.get("/");
+        return response.data;
+
+    } catch (error) {
+        console.error('Error while Retriving All Schemes:', error);
+        throw error;
+    }
 }
-}
+
 const getAllSchemeId=async (userid)=>{
     try{
      

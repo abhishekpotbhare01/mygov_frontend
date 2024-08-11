@@ -1,10 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar } from './Navbar'
 import { AdminNavbar } from './AdminNavbar';
 import './AdminComponent.css'
 
+import SchemeClient from '../service/SchemeService.js'
+import AdminService from '../service/AdminService.js';
+
 const AdminDashboard = () => {
+
+    const [schemesDetails, setSchemesDetails] = useState([]);
+
+    const [applications, setApplications] = useState([]);
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            try {
+                const res = await SchemeClient.GetAllSchemes();
+                setSchemesDetails(res)
+            } catch (error) {
+
+                console.error('SchemeClient or SchemeClient.getSchemes is not defined');
+            }
+        };
+
+        fetchData();
+
+    }, []);
+
     const [activeTab, setActiveTab] = useState('Pending');
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await AdminService.GetAllSchemesById(1, activeTab);
+                setApplications(res); // Ensure res is the correct data structure
+                console.log('Applications:', res);
+            } catch (error) {
+                console.error('Error while fetching applications:', error);
+            }
+        };
+
+        fetchData();
+    }, [activeTab]);
+
+    //  console.log("Data : ", schemesDetails);
+
+
+
+
+
     const [users, setUsers] = useState([
         { id: 1, name: 'User 1', status: 'Pending' },
         { id: 2, name: 'User 2', status: 'Approved' },
@@ -14,6 +60,8 @@ const AdminDashboard = () => {
         { id: 6, name: 'User 6', status: 'Pending' },
     ]);
 
+
+
     const pendingCount = users.filter(user => user.status === 'Pending').length;
     const approvedCount = users.filter(user => user.status === 'Approved').length;
 
@@ -22,38 +70,38 @@ const AdminDashboard = () => {
     };
 
     const filteredUsers = users.filter(user => user.status === activeTab);
-    const scheme=["AGRICULTURE","EDUCATION","HEALTH","EMPLOYMENT","INFRASTRUCTURE","WOMEN_EMPOWERMENT","CHILD_WELFARE","SENIOR_CITIZEN","HOUSING","SOCIAL_WELFARE","ENVIRONMENT","RURAL_DEVELOPMENT","URBAN_DEVELOPMENT","FINANCIAL_INCLUSION","SKILL_DEVELOPMENT","TRANSPORT","TOURISM","TECHNOLOGY",]
+
+    const schemeNames = schemesDetails.map((scheme) => {
+        const schemeNames = {
+            "schemeId": scheme.schemeId,
+            "name": scheme.name
+        }
+
+        return schemeNames;
+
+    });
+
+
     return (
         <>
-         <AdminNavbar></AdminNavbar>
-         <div className='schemelist'>
-            <label htmlFor="schemelist">Choose Category</label>
-            <select name="schemelist" id="schemelist">
-                <option value="">AGRICULTURE</option>
-                <option value="">EDUCATION</option>
-                <option value="">HEALTH</option>
-                <option value="">INFRASTRUCTURE</option>
-                <option value="">WOMEN_EMPOWERMENT</option>
-                <option value="">CHILD_WELFARE</option>
-                <option value="">SENIOR_CITIZEN</option>
-                <option value="">HOUSING</option>
-                <option value="">SOCIAL_WELFARE</option>
-                <option value="">ENVIRONMENT</option>
-                <option value="">RURAL_DEVELOPMENT</option>
-                <option value="">URBAN_DEVELOPMENT</option>
-                <option value="">FINANCIAL_INCLUSION</option>
-                <option value="">SKILL_DEVELOPMENT</option>
-                <option value="">TRANSPORT</option>
-                <option value="">TOURISM</option>
-                <option value="">TECHNOLOGY</option>
+            <AdminNavbar></AdminNavbar>
+            <div className='schemelist'>
+                <label htmlFor="schemelist">Choose Scheme</label>
+                <select name="schemelist" id="schemelist">
 
-            </select>
-           
-             
-         </div>
-         
-         
-         <div className="container-fluid mt-3">
+                    {schemeNames.map((scheme, index) => {
+                        return (
+                            <option key={index} value={scheme.schemeId}>{scheme.name.toUpperCase()}</option>
+                        )
+                    })}
+
+                </select>
+
+
+            </div>
+
+
+            <div className="container-fluid mt-3">
                 <div className="row mb-3">
                     <div className="col-md-6">
                         <div className="status-box pending-box">
@@ -85,10 +133,10 @@ const AdminDashboard = () => {
                     </div>
 
                     <div className="col-md-9">
-                        {filteredUsers.map((user) => (
+                        {applications.map((app) => (
                             <div key={user.id} className="card mb-3">
                                 <div className="card-body d-flex justify-content-between align-items-center">
-                                    <span>{user.name}</span>
+                                    <span>{app.}</span>
                                     <button className="btn btn-outline-primary btn-sm">See Details</button>
                                 </div>
                             </div>
