@@ -6,7 +6,20 @@ import { useNavigate } from 'react-router-dom';
 const StudentSchemeForm = () => {
   const navigate = useNavigate();
 
-  const [errorMessage, setErrorMessage] = useState(" ");
+  const [errorMessage, setErrorMessage] = useState({
+    studentName: "Enter Student First Name",
+    studentSurname: "Enter Student Last Name",
+    instituteName: "Enter Institute Name",
+    courseName: "Enter Course Name",
+    marks: "Enter Marks",
+    grade: "Enter Grade",
+    familyIncome: "Enter amily Income",
+    village_street: "Enter Village Street Name",
+    city: "Enter City Name",
+    state: "Enter State Name",
+    zip: "Enter Zip Code",
+    country: "Enter Country Name"
+  });
 
   const [studentData, setStudentData] = useState({
     studentDetails: {
@@ -55,7 +68,7 @@ const StudentSchemeForm = () => {
 
     try {
       console.log("studentData is", studentData)
-      localStorage.setItem("studentData", JSON.stringify(studentData))
+      // localStorage.setItem("studentData", JSON.stringify(studentData))
 
       // get login userId
       let userId = localStorage.getItem("loginResponse");
@@ -88,154 +101,176 @@ const StudentSchemeForm = () => {
   return (
     <>
       <Navbar />
-      <div className="container mt-5 p-4" style={{ maxWidth: '600px' }}>
+      <div className="container mt-5 p-4" style={{ maxWidth: '800px' }}>
         <h2 className="text-center mb-4">Add Student</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="studentName"
-              name="studentName"
-              value={studentData.studentDetails.studentName}
-              onChange={handleChange}
-              placeholder='Enter Student First Name'
-              required
-            />
+          <div className='d-flex flex-row'>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="studentName">First Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="studentName"
+                name="studentName"
+                value={studentData.studentDetails.studentName}
+                onChange={handleChange}
+                placeholder='Enter Student First Name'
+                required
+              />
+            </div>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="studentSurname">Last Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="studentSurname"
+                name="studentSurname"
+                value={studentData.studentDetails.studentSurname}
+                onChange={handleChange}
+                placeholder='Enter Student Last Name'
+                required
+              />
+            </div>
           </div>
-          <div className="form-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="studentSurname"
-              name="studentSurname"
-              value={studentData.studentDetails.studentSurname}
-              onChange={handleChange}
-              placeholder='Enter Student Last Name'
-              required
-            />
+          <div className='d-flex flex-row'>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="instituteName">Institute Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="instituteName"
+                name="instituteName"
+                value={studentData.studentDetails.instituteName}
+                onChange={handleChange}
+                placeholder='Enter Institute Name'
+                required
+              />
+            </div>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="courseName">Course Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="courseName"
+                name="courseName"
+                value={studentData.studentDetails.courseName}
+                onChange={handleChange}
+                placeholder='Enter Course Name'
+                required
+              />
+            </div>
           </div>
-          <div className="form-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="instituteName"
-              name="instituteName"
-              value={studentData.studentDetails.instituteName}
-              onChange={handleChange}
-              placeholder='Enter Institute Name'
-              required
-            />
+          <div className='d-flex flex-row'>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="marks">Marks (in percentage)</label>
+              <input
+                type="number"
+                className="form-control"
+                id="marks"
+                name="marks"
+                value={studentData.studentDetails.marks}
+                onChange={handleChange}
+                placeholder='Enter marks (in percentage)'
+                required
+              />
+            </div>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="grade">Enter grade</label>
+              <input
+                type="text"
+                className="form-control"
+                id="grade"
+                name="grade"
+                value={studentData.studentDetails.grade}
+                onChange={handleChange}
+                placeholder="Enter grade"
+                required
+              />
+            </div>
           </div>
-          <div className="form-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="courseName"
-              name="courseName"
-              value={studentData.studentDetails.courseName}
-              onChange={handleChange}
-              placeholder='Enter Course Name'
-              required
-            />
+          <div className='d-flex flex-row'>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="familyIncome">Enter Family Income</label>
+              <input
+                type="number"
+                className="form-control"
+                id="familyIncome"
+                name="familyIncome"
+                value={studentData.familyIncome}
+                onChange={(e) => setStudentData({ ...studentData, familyIncome: parseFloat(e.target.value) })}
+                placeholder='Enter Family Income'
+                required
+              />
+            </div>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="village_street">Enter Village/Street</label>
+              <input
+                type="text"
+                className="form-control"
+                id="village_street"
+                name="village_street"
+                value={studentData.address.village_street}
+                onChange={handleAddressChange}
+                placeholder='Enter Village/Street'
+                required
+              />
+            </div>
           </div>
-          <div className="form-group mb-3">
-            <label htmlFor="marks">Marks (in percentage)</label>
-            <input
-              type="number"
-              className="form-control"
-              id="marks"
-              name="marks"
-              value={studentData.studentDetails.marks}
-              onChange={handleChange}
-              placeholder='Enter marks (in percentage)'
-              required
-            />
+          <div className='d-flex flex-row'>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="city">Enter City</label>
+              <input
+                type="text"
+                className="form-control"
+                id="city"
+                name="city"
+                value={studentData.address.city}
+                onChange={handleAddressChange}
+                placeholder='Enter City'
+                required
+              />
+            </div>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="state">Enter State</label>
+              <input
+                type="text"
+                className="form-control"
+                id="state"
+                name="state"
+                value={studentData.address.state}
+                onChange={handleAddressChange}
+                placeholder='Enter State'
+                required
+              />
+            </div>
           </div>
-          <div className="form-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="grade"
-              name="grade"
-              value={studentData.studentDetails.grade}
-              onChange={handleChange}
-              placeholder="Enter grade"
-              required
-            />
-          </div>
-          <div className="form-group mb-3">
-            <label htmlFor="familyIncome">Enter Family Income</label>
-            <input
-              type="number"
-              className="form-control"
-              id="familyIncome"
-              name="familyIncome"
-              value={studentData.familyIncome}
-              onChange={(e) => setStudentData({ ...studentData, familyIncome: parseFloat(e.target.value) })}
-              placeholder='Enter Family Income'
-              required
-            />
-          </div>
-          <div className="form-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="village_street"
-              name="village_street"
-              value={studentData.address.village_street}
-              onChange={handleAddressChange}
-              placeholder='Enter Village/Street'
-              required
-            />
-          </div>
-          <div className="form-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="city"
-              name="city"
-              value={studentData.address.city}
-              onChange={handleAddressChange}
-              placeholder='Enter City'
-              required
-            />
-          </div>
-          <div className="form-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="state"
-              name="state"
-              value={studentData.address.state}
-              onChange={handleAddressChange}
-              placeholder='Enter State'
-              required
-            />
-          </div>
-          <div className="form-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="zip"
-              name="zip"
-              value={studentData.address.zip}
-              onChange={handleAddressChange}
-              placeholder='Enter ZIP Code'
-              required
-            />
-          </div>
-          <div className="form-group mb-5">
-            <input
-              type="text"
-              className="form-control"
-              id="country"
-              name="country"
-              value={studentData.address.country}
-              onChange={handleAddressChange}
-              placeholder='Enter Country'
-              required
-            />
+          <div className='d-flex flex-row'>
+            <div className="form-group mb-3 col-md-6">
+              <label htmlFor="zip">Enter ZIP Code</label>
+              <input
+                type="text"
+                className="form-control"
+                id="zip"
+                name="zip"
+                value={studentData.address.zip}
+                onChange={handleAddressChange}
+                placeholder='Enter ZIP Code'
+                required
+              />
+            </div>
+            <div className="form-group mb-5 col-md-6">
+              <label htmlFor="country">Enter Country</label>
+              <input
+                type="text"
+                className="form-control"
+                id="country"
+                name="country"
+                value={studentData.address.country}
+                onChange={handleAddressChange}
+                placeholder='Enter Country'
+                required
+              />
+            </div>
           </div>
           <button style={{ marginLeft: "0px" }} type="submit" className="btn btn-primary btn-block">
             Register

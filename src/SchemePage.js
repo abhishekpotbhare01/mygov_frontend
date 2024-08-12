@@ -7,32 +7,29 @@ import { useEffect, useState } from "react";
 import { Navbar } from "./compoents/Navbar";
 import { useNavigate } from "react-router-dom";
 
-
 function SchemePage() {
-  
-    const [schemes, setSchemes] = useState([]);
-    const [searchScheme, setSearchSchemes]=useState('');
-    const [filteredSchemes,setfilteredSchemes]=useState([]);
-   
-    const[allSchemeId,setAllSchemeId]=useState([]);
-    const[isApplied,setIsApplied]=useState(false);
-    const[userid,setUserid]=useState()
+  const [schemes, setSchemes] = useState([]);
+  const [searchScheme, setSearchSchemes] = useState("");
+  const [filteredSchemes, setfilteredSchemes] = useState([]);
 
-    const navigate = useNavigate();
+  const [allSchemeId, setAllSchemeId] = useState([]);
+  const [isApplied, setIsApplied] = useState(false);
+  // const [userid, setUserid] = useState();
 
-    //fetch schemes when componnent is rendered;
-    useEffect(() => {
+  const navigate = useNavigate();
 
-      const fetchSchemes = async () => {
-          try {
-              const resp = await SchemeService.GetAllSchemes();
-              setSchemes(resp);
-          } catch (error) {
-              console.error("Error while fetching schemes:", error);
-          }
-      };
-     
-      fetchSchemes(); // Call the async function
+  //fetch schemes when componnent is rendered;
+  useEffect(() => {
+    const fetchSchemes = async () => {
+      try {
+        const resp = await SchemeService.GetAllSchemes();
+        setSchemes(resp);
+      } catch (error) {
+        console.error("Error while fetching schemes:", error);
+      }
+    };
+
+    fetchSchemes(); // Call the async function
   }, []);
 
   useEffect(() => {
@@ -40,64 +37,64 @@ function SchemePage() {
     if (!userId) {
       throw new Error("Login response not found in local storage");
     }
-    setUserid(JSON.parse(userId).userId);
 
-    const fetchAllSchemeId = async (userid) => {
-        try {
-            const resp=await SchemeService.getAllSchemeId(userid)
-            setAllSchemeId(resp)
-            console.log("schemeId list:",resp)
-          } catch (error) {
-            console.error("Error in fetching schemeId:", error);
-        }
+    let userid2 = JSON.parse(userId).userId;
+    const fetchAllSchemeId = async (userid2) => {
+      try {
+        const resp = await SchemeService.getAllSchemeId(userid2);
+        setAllSchemeId(resp);
+        console.log("schemeId list:", resp);
+      } catch (error) {
+        console.error("Error in fetching schemeId:", error);
+      }
     };
 
-  
-    fetchAllSchemeId(userid); // Call the async function
-}, []);
+    fetchAllSchemeId(userid2); // Call the async function
+  }, []);
 
-console.log(typeof userid);
+  // Update filtered schemes when search input changes
+  useEffect(() => {
+    if (searchScheme) {
+      const filtered = schemes.filter((scheme) =>
+        scheme.schemeName.toLowerCase().includes(searchScheme.toLowerCase())
+      );
+      setfilteredSchemes(filtered);
+    } else {
+      setfilteredSchemes(schemes); // Reset to all schemes if the search is cleared
+    }
+  }, [searchScheme, schemes]);
 
-   // Update filtered schemes when search input changes
-      useEffect(() => {
-        if (searchScheme) {
-          const filtered = schemes.filter(scheme =>
-            scheme.schemeName.toLowerCase().includes(searchScheme.toLowerCase()));
-          setfilteredSchemes(filtered);
-        } else {
-          setfilteredSchemes(schemes); // Reset to all schemes if the search is cleared
-        }
-      }, [searchScheme, schemes]);
-    
-      const handleSchemeStatus = (e) => {
-        e.preventDefault();
-        localStorage.setItem('')
-        navigate("/scheme-status")
-      }
+  const handleSchemeStatus = (e) => {
+    e.preventDefault();
+    localStorage.setItem("");
+    navigate("/scheme-status");
+  };
   return (
     <>
       <Navbar />
       <div>
         <div className="maindiv">
-          
-        {/* search schemes  */}
-        <input type="text"
-         placeholder="Enter SchemeName" 
-          value={searchScheme}
-        onChange={(e) => setSearchSchemes(e.target.value)} 
-        id="exampleInput" />
+          {/* search schemes  */}
+          <input
+            type="text"
+            placeholder="Enter SchemeName"
+            value={searchScheme}
+            onChange={(e) => setSearchSchemes(e.target.value)}
+            id="exampleInput"
+          />
 
-        {/* view schemes button */}
-          <button type="button" 
-            className="btn btn-primary"  
+          {/* view schemes button */}
+          <button
+            type="button"
+            className="btn btn-primary"
             onClick={(e) => handleSchemeStatus(e)}
           >
             View scheme status
           </button>
         </div>
-        
-          {/* scheme cards */}
-      {/* <div className="schemes">
+
+        {/* scheme cards */}
+        {/* <div className="schemes">
           {filteredSchemes.map((scheme, index) => {  1
             allSchemeId.map((id)=>{
                 
@@ -118,16 +115,16 @@ console.log(typeof userid);
           })}
         </div> */}
 
-<div className="schemes">
-  {filteredSchemes.map((scheme, index) => {
-    const isApplied = allSchemeId.includes(scheme.schemeId);
-    return (
-      <div key={index}>
-        <Schemes scheme={scheme} isApplied={isApplied} />
-      </div>
-    );
-  })}
-</div>
+        <div className="schemes">
+          {filteredSchemes.map((scheme, index) => {
+            const isApplied = allSchemeId.includes(scheme.schemeId);
+            return (
+              <div key={index}>
+                <Schemes scheme={scheme} isApplied={isApplied} />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );
