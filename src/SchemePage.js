@@ -5,6 +5,8 @@ import Schemes from "./compoents/Schemes";
 import one from "../src/assets/gov/img/gov2.jpg";
 import { useEffect, useState } from "react";
 import { Navbar } from "./compoents/Navbar";
+import { useNavigate } from "react-router-dom";
+
 
 function SchemePage() {
   
@@ -15,6 +17,9 @@ function SchemePage() {
     const[allSchemeId,setAllSchemeId]=useState([]);
     const[isApplied,setIsApplied]=useState(false);
     const[userid,setUserid]=useState()
+
+    const navigate = useNavigate();
+
     //fetch schemes when componnent is rendered;
     useEffect(() => {
 
@@ -64,7 +69,11 @@ console.log(typeof userid);
         }
       }, [searchScheme, schemes]);
     
-
+      const handleSchemeStatus = (e) => {
+        e.preventDefault();
+        localStorage.setItem('')
+        navigate("/scheme-status")
+      }
   return (
     <>
       <Navbar />
@@ -79,7 +88,10 @@ console.log(typeof userid);
         id="exampleInput" />
 
         {/* view schemes button */}
-          <button type="button" className="btn btn-primary">
+          <button type="button" 
+            className="btn btn-primary"  
+            onClick={(e) => handleSchemeStatus(e)}
+          >
             View scheme status
           </button>
         </div>

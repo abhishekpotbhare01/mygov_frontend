@@ -11,6 +11,7 @@ import AddNewScheme from "./compoents/AddNewScheme";
 import FarmerSchemeRegistration from "./compoents/FarmerSchemeRegistration";
 import StudentSchemeForm from "./compoents/Forms/StudentSchemeForm";
 import WomenSchemeForm from "./compoents/Forms/WomenSchemeForm";
+import SchemeStatus from "./compoents/SchemeStatus";
 
 function App() {
   return (
@@ -46,6 +47,8 @@ function App() {
           {/* <Route exact={true} path="/">
               < />
             </Route> */}
+          <Route path="/scheme-status" element={<SchemeStatus />} />
+ 
         </Routes>
       </Router>
     </div>
