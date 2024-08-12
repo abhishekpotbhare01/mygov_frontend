@@ -1,0 +1,36 @@
+/* ApprovalPage.css */
+.card {
+    border: 1px solid #007bff; /* Blue border */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.card img {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-text {
+    margin-bottom: 10px;
+}
+
+.card-footer {
+    border-top: 1px solid #ddd;
+    padding: 15px;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
+.btn {
+    border-radius: 5px;
+}

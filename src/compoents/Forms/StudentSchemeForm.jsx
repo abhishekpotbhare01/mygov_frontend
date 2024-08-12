@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 const StudentSchemeForm = () => {
   const navigate = useNavigate();
 
-  const[errorMessage,setErrorMessage]=useState(" ");
-  
+  const [errorMessage, setErrorMessage] = useState(" ");
+
   const [studentData, setStudentData] = useState({
     studentDetails: {
       studentName: "",
@@ -52,7 +52,7 @@ const StudentSchemeForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       console.log("studentData is", studentData)
       localStorage.setItem("studentData", JSON.stringify(studentData))

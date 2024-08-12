@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Navbar } from './Navbar'
 import { AdminNavbar } from './AdminNavbar';
 import './AdminComponent.css'
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import SchemeClient from '../service/SchemeService.js'
 import AdminService from '../service/AdminService.js';
 
 const AdminDashboard = () => {
+
+    const navigate = useNavigate();
 
     const [schemesDetails, setSchemesDetails] = useState([]);
 
@@ -50,28 +53,9 @@ const AdminDashboard = () => {
     //  console.log("Data : ", schemesDetails);
 
 
-
-
-
-    const [users, setUsers] = useState([
-        { id: 1, name: 'User 1', status: 'Pending' },
-        { id: 2, name: 'User 2', status: 'Approved' },
-        { id: 3, name: 'User 3', status: 'Pending' },
-        { id: 4, name: 'User 4', status: 'Approved' },
-        { id: 5, name: 'User 5', status: 'Pending' },
-        { id: 6, name: 'User 6', status: 'Pending' },
-    ]);
-
-
-
-    const pendingCount = users.filter(user => user.status === 'Pending').length;
-    const approvedCount = users.filter(user => user.status === 'Approved').length;
-
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
-
-    const filteredUsers = users.filter(user => user.status === activeTab);
 
     const schemeNames = schemesDetails.map((scheme) => {
         const schemeNames = {
@@ -83,7 +67,11 @@ const AdminDashboard = () => {
 
     });
 
-    console.log(schemeNames)
+
+    const handleDetailsClick = (app) => {
+        const application = { application: app };
+        navigate('/approval-page', { state: application });
+    };
 
 
     return (
@@ -112,24 +100,24 @@ const AdminDashboard = () => {
                     <div className="col-md-6">
                         <div className="status-box pending-box">
                             <h4>Total Pending</h4>
-                            <p>{pendingCount}</p>
+                            <p>{4}</p>
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="status-box approved-box">
                             <h4>Total Approved</h4>
-                            <p>{approvedCount}</p>
+                            <p>{2}</p>
                         </div>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-3">
                         <div className="list-group">
-                            {['Pending', 'Approved'].map((tab) => (
+                            {['Pending', 'Approved', 'Rejected'].map((tab) => (
                                 <button
                                     key={tab}
                                     type="button"
-                                    className={`mt-2 list-group-item list-group-item-action ${activeTab === tab ? 'active' : ''}`}
+                                    className={`list-group-item list-group-item-action ${activeTab === tab ? 'active' : ''} button-spacing`}
                                     onClick={() => handleTabClick(tab)}
                                 >
                                     {tab}
@@ -138,24 +126,38 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
+
+
+
+
                     <div className="col-md-9">
-                        {applications.map((app) => (
-                            <div key={`${app.farmerScheme ? app.farmerScheme.userId.userId : app.studentScheme ? app.studentScheme.userId.userId : app.id}`} className="card mb-3">
-                                <div className="card-body d-flex justify-content-between align-items-center">
-                                    {app.farmerScheme ? (
-                                        <span>{JSON.stringify(app.farmerScheme.userId.email)}</span>
-                                    ) : app.studentScheme ? (
-                                        <span>{JSON.stringify(app.studentScheme.userId.email)}</span>
-                                    ) : (
-                                        <span>No scheme found</span>
-                                    )}
-                                    <button className="btn btn-outline-primary btn-sm">See Details</button>
+                        {applications.length > 0 ? (
+                            applications.map((app) => (
+                                <div key={`${app.farmerScheme ? app.farmerScheme.userId.userId : app.studentScheme ? app.studentScheme.userId.userId : app.id}`} className="card mb-3">
+                                    <div className="card-body d-flex justify-content-between align-items-center">
+                                        {app.farmerScheme ? (
+                                            <span className="text-bold text-end">
+                                                {app.farmerScheme.userId.firstName} &nbsp; {app.farmerScheme.userId.lastName} &nbsp; &nbsp; {app.scheme.schemeName}
+                                            </span>
+                                        ) : app.studentScheme ? (
+                                            <span className="text-end">
+                                                {app.studentScheme.userId.firstName} &nbsp; {app.studentScheme.userId.lastName} &nbsp; &nbsp; {app.scheme.schemeName}
+                                            </span>
+                                        ) : (
+                                            <span>No scheme found</span>
+                                        )}
+                                        <button className="btn btn-outline-primary btn-sm" onClick={() => handleDetailsClick(app)}>
+                                            See Details
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            <div>No applications available</div>
+                        )}
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 };
