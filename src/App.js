@@ -11,12 +11,18 @@ import AddNewScheme from "./compoents/AddNewScheme";
 import FarmerSchemeRegistration from "./compoents/FarmerSchemeRegistration";
 import StudentSchemeForm from "./compoents/Forms/StudentSchemeForm";
 import WomenSchemeForm from "./compoents/Forms/WomenSchemeForm";
+import ApprovalPage from "./compoents/ApprovalPage";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import $ from 'jquery';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
+          <Route path="/approval-page" element={<ApprovalPage />} />
+
           <Route path="/Addnewscheme" element={<AddNewScheme></AddNewScheme>} />
           <Route path="/" element={<Homepagecomponent />} />
           <Route path="/home" element={<Homepagecomponent />} />
@@ -31,7 +37,7 @@ function App() {
             path="/schemepage/student-scheme-form"
             element={<StudentSchemeForm />}
           />
-{/* 
+          {/* 
           <Route
             path="/schemepage/farmer-scheme-form"
             element={< />}
@@ -39,10 +45,10 @@ function App() {
 
           <Route
             path="/schemepage/women-scheme-form"
-            element={< WomenSchemeForm/>}
+            element={< WomenSchemeForm />}
           />
 
-         
+
           {/* <Route exact={true} path="/">
               < />
             </Route> */}

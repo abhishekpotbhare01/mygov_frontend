@@ -1,14 +1,26 @@
 select {
-    text-align: center;
-    
-    text-align-last: center; 
-  }
-  
-  option {
-    text-align: center;
-  }
-  .schemelist{
-    padding-right: 40%;
-    padding-left: 40%;
-    display: flex;
-  }
+  text-align: center;
+
+  text-align-last: center;
+}
+
+option {
+  text-align: center;
+}
+.schemelist {
+  padding-right: 40%;
+  padding-left: 40%;
+  display: flex;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+.list-group-item-spacing {
+  margin-top: 50px; /* Adjust the value as needed */
+}
+
+.button-spacing {
+  margin-bottom: 50px; /* Adjust the value as needed */
+}
+
