@@ -8,8 +8,8 @@ const RegisterUser = () => {
 
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        fname: '',
-        lname: '',
+        firstName: '',
+        lastName: '',
         email: '',
         age: '',
         password: '',
@@ -60,9 +60,9 @@ const RegisterUser = () => {
                         <input
                             type="text"
                             className="form-control"
-                            id="fname"
-                            name="fname"
-                            value={formData.fname}
+                            id="firstName"
+                            name="firstName"
+                            value={formData.firstName}
                             onChange={handleChange}
                             placeholder='Enter First Name'
                         />
@@ -71,9 +71,9 @@ const RegisterUser = () => {
                         <input
                             type="text"
                             className="form-control"
-                            id="lname"
-                            name="lname"
-                            value={formData.lname}
+                            id="lastName"
+                            name="lastName"
+                            value={formData.lastName}
                             onChange={handleChange}
                             placeholder='Enter last Name'
                         />
