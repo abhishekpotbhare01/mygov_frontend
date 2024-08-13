@@ -53,13 +53,13 @@ const RegisterUser = () => {
     return (
         <>
             <Navbar />
-            <div className="container mt-5 p-4" style={{ maxWidth: '600px' }}>
+            <div className="container mt-5 p-4" style={{ maxWidth: '600px', backgroundColor: "#a3b3de3e" }}>
                 <h2 className="text-center mb-4">Register User</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <input
                             type="text"
-                            className="form-control"
+                            className="form-control p-2 mb-4"
                             id="firstName"
                             name="firstName"
                             value={formData.firstName}
@@ -70,7 +70,7 @@ const RegisterUser = () => {
                     <div className="form-group">
                         <input
                             type="text"
-                            className="form-control"
+                            className="form-control p-2 mb-4"
                             id="lastName"
                             name="lastName"
                             value={formData.lastName}
@@ -78,7 +78,7 @@ const RegisterUser = () => {
                             placeholder='Enter last Name'
                         />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mb-4">
                         <input
                             type="email"
                             className="form-control"
@@ -89,7 +89,7 @@ const RegisterUser = () => {
                             placeholder='Enter Email'
                         />
                     </div>
-                    <div className="form-group mt-3">
+                    <div className="form-group mb-4">
                         <input
                             type="number"
                             className="form-control"
@@ -146,7 +146,7 @@ const RegisterUser = () => {
                     </div>
                     {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                     {successMessage && <div className="alert alert-success">{successMessage}</div>}
-                    <div className="d-flex justify-content-between">
+                    <div className="d-flex justify-content-between mt-4">
                         <button type="submit" className="btn btn-primary btn-block col-md-8" style={{ marginLeft: "0px" }}>
                             Register
                         </button>

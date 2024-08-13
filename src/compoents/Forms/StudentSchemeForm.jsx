@@ -6,21 +6,6 @@ import { useNavigate } from 'react-router-dom';
 const StudentSchemeForm = () => {
   const navigate = useNavigate();
 
-  const [errorMessage, setErrorMessage] = useState({
-    studentName: "Enter Student First Name",
-    studentSurname: "Enter Student Last Name",
-    instituteName: "Enter Institute Name",
-    courseName: "Enter Course Name",
-    marks: "Enter Marks",
-    grade: "Enter Grade",
-    familyIncome: "Enter amily Income",
-    village_street: "Enter Village Street Name",
-    city: "Enter City Name",
-    state: "Enter State Name",
-    zip: "Enter Zip Code",
-    country: "Enter Country Name"
-  });
-
   const [studentData, setStudentData] = useState({
     studentDetails: {
       studentName: "",
@@ -39,6 +24,8 @@ const StudentSchemeForm = () => {
       country: ""
     }
   });
+
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,103 +53,150 @@ const StudentSchemeForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      console.log("studentData is", studentData)
-      // localStorage.setItem("studentData", JSON.stringify(studentData))
+    const errorObject = {};
 
-      // get login userId
-      let userId = localStorage.getItem("loginResponse");
-      if (!userId) {
-        throw new Error("Login response not found in local storage");
+    if (!studentData.studentDetails.studentName) {
+      errorObject.studentName = 'First name is required *';
+    }
+    if (!studentData.studentDetails.studentSurname) {
+      errorObject.studentSurname = 'Last name is required *';
+    }
+    if (!studentData.studentDetails.instituteName) {
+      errorObject.instituteName = 'Institute name is required *';
+    }
+    if (!studentData.studentDetails.courseName) {
+      errorObject.courseName = 'Course name is required *';
+    }
+    if (!studentData.studentDetails.marks) {
+      errorObject.marks = 'Marks are required *';
+    }
+    if (!studentData.studentDetails.grade) {
+      errorObject.grade = 'Grade is required *';
+    }
+    if (!studentData.familyIncome) {
+      errorObject.familyIncome = 'Family income is required *';
+    }
+    if (!studentData.address.village_street) {
+      errorObject.address = 'Village/Street is required *';
+    }
+    if (!studentData.address.city) {
+      errorObject.address = 'City is required *';
+    }
+    if (!studentData.address.state) {
+      errorObject.address = 'State is required *';
+    }
+    if (!studentData.address.zip) {
+      errorObject.address = 'ZIP Code is required *';
+    }
+    if (!studentData.address.country) {
+      errorObject.address = 'Country is required *';
+    }
+
+    if (Object.keys(errorObject).length > 0) {
+      setErrors(errorObject);
+    } else {
+      try {
+        console.log("studentData is", studentData)
+        // localStorage.setItem("studentData", JSON.stringify(studentData))
+
+        // get login userId
+        let userId = localStorage.getItem("loginResponse");
+        if (!userId) {
+          throw new Error("Login response not found in local storage");
+        }
+        userId = JSON.parse(userId).userId;
+
+
+        // get schemeId  
+        let schemeId = localStorage.getItem("schemeMasterData");
+        if (!schemeId) {
+          throw new Error("Scheme master data not found in local storage");
+        }
+        schemeId = JSON.parse(schemeId).schemeId;
+
+
+        // axios call
+        const resp = await StudentService.AddStudentScheme(studentData, userId, schemeId);
+        console.log("Student Scheme post response: ", resp);
+        alert("Student Added....!!!");
+        // navigate("/schemepage");
+
+      } catch (error) {
+        console.error('Error adding student:', error);
+
       }
-      userId = JSON.parse(userId).userId;
-
-
-      // get schemeId  
-      let schemeId = localStorage.getItem("schemeMasterData");
-      if (!schemeId) {
-        throw new Error("Scheme master data not found in local storage");
-      }
-      schemeId = JSON.parse(schemeId).schemeId;
-
-
-      // axios call
-      const resp = await StudentService.AddStudentScheme(studentData, userId, schemeId);
-      console.log("Student Scheme post response: ", resp);
-      alert("Student Added....!!!");
-      // navigate("/schemepage");
-
-    } catch (error) {
-      console.error('Error adding student:', error);
-
     }
   };
 
   return (
     <>
       <Navbar />
-      <div className="container mt-5 p-4" style={{ maxWidth: '800px' }}>
+      <div className="container mt-5 p-4" style={{ maxWidth: '800px', backgroundColor: "#a3b3de3e" }}>
         <h2 className="text-center mb-4">Add Student</h2>
         <form onSubmit={handleSubmit}>
-          <div className='d-flex flex-row'>
-            <div className="form-group mb-3 col-md-6">
+          <div className='d-flex flex-row justify-content-around'>
+            <div className="form-group mb-3 col-md-5">
               <label htmlFor="studentName">First Name</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-0"
                 id="studentName"
                 name="studentName"
                 value={studentData.studentDetails.studentName}
                 onChange={handleChange}
                 placeholder='Enter Student First Name'
-                required
+              // required
               />
+              {errors.studentName && <div style={{ color: 'red' }}>{errors.studentName}</div>}
             </div>
-            <div className="form-group mb-3 col-md-6">
+            <div className="form-group mb-3 col-md-5">
               <label htmlFor="studentSurname">Last Name</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-0"
                 id="studentSurname"
                 name="studentSurname"
                 value={studentData.studentDetails.studentSurname}
                 onChange={handleChange}
                 placeholder='Enter Student Last Name'
-                required
+              // required
               />
+              {errors.studentSurname && <div style={{ color: 'red' }}>{errors.studentSurname}</div>}
             </div>
           </div>
-          <div className='d-flex flex-row'>
-            <div className="form-group mb-3 col-md-6">
+          <div className='d-flex flex-row justify-content-around'>
+            <div className="form-group mb-3 col-md-5">
               <label htmlFor="instituteName">Institute Name</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-0"
                 id="instituteName"
                 name="instituteName"
                 value={studentData.studentDetails.instituteName}
                 onChange={handleChange}
                 placeholder='Enter Institute Name'
-                required
+              // required
               />
+              {errors.instituteName && <div style={{ color: 'red' }}>{errors.instituteName}</div>}
             </div>
-            <div className="form-group mb-3 col-md-6">
+            <div className="form-group mb-3 col-md-5">
               <label htmlFor="courseName">Course Name</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-0"
                 id="courseName"
                 name="courseName"
                 value={studentData.studentDetails.courseName}
                 onChange={handleChange}
                 placeholder='Enter Course Name'
-                required
+              // required
               />
+              {errors.courseName && <div style={{ color: 'red' }}>{errors.courseName}</div>}
             </div>
           </div>
-          <div className='d-flex flex-row'>
-            <div className="form-group mb-3 col-md-6">
-              <label htmlFor="marks">Marks (in percentage)</label>
+          <div className='d-flex flex-row justify-content-around'>
+            <div className="form-group mb-3 col-md-5">
+              <label htmlFor="marks" style={{ marginBottom: "10px" }}>Marks (in percentage)</label>
               <input
                 type="number"
                 className="form-control"
@@ -171,108 +205,116 @@ const StudentSchemeForm = () => {
                 value={studentData.studentDetails.marks}
                 onChange={handleChange}
                 placeholder='Enter marks (in percentage)'
-                required
+              // required
               />
+              {errors.marks && <div style={{ color: 'red' }}>{errors.marks}</div>}
             </div>
-            <div className="form-group mb-3 col-md-6">
+            <div className="form-group mb-3 col-md-5">
               <label htmlFor="grade">Enter grade</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-0"
                 id="grade"
                 name="grade"
                 value={studentData.studentDetails.grade}
                 onChange={handleChange}
                 placeholder="Enter grade"
-                required
+              // required
               />
+              {errors.grade && <div style={{ color: 'red' }}>{errors.grade}</div>}
             </div>
           </div>
-          <div className='d-flex flex-row'>
-            <div className="form-group mb-3 col-md-6">
-              <label htmlFor="familyIncome">Enter Family Income</label>
+          <div className='d-flex flex-row justify-content-around'>
+            <div className="form-group mb-3 col-md-5">
+              <label htmlFor="familyIncome" style={{ marginBottom: "10px" }}>Enter Family Income</label>
               <input
                 type="number"
-                className="form-control"
+                className="form-control mb-0"
                 id="familyIncome"
                 name="familyIncome"
                 value={studentData.familyIncome}
                 onChange={(e) => setStudentData({ ...studentData, familyIncome: parseFloat(e.target.value) })}
                 placeholder='Enter Family Income'
-                required
+              // required
               />
+              {errors.familyIncome && <div style={{ color: 'red' }}>{errors.familyIncome}</div>}
             </div>
-            <div className="form-group mb-3 col-md-6">
+            <div className="form-group mb-3 col-md-5">
               <label htmlFor="village_street">Enter Village/Street</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-0"
                 id="village_street"
                 name="village_street"
                 value={studentData.address.village_street}
                 onChange={handleAddressChange}
                 placeholder='Enter Village/Street'
-                required
+              // required
               />
+              {errors.address && <div style={{ color: 'red' }}>{errors.address}</div>}
             </div>
           </div>
-          <div className='d-flex flex-row'>
-            <div className="form-group mb-3 col-md-6">
+          <div className='d-flex flex-row justify-content-around'>
+            <div className="form-group mb-3 col-md-5">
               <label htmlFor="city">Enter City</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-0"
                 id="city"
                 name="city"
                 value={studentData.address.city}
                 onChange={handleAddressChange}
                 placeholder='Enter City'
-                required
+              // required
               />
+              {errors.address && <div style={{ color: 'red' }}>{errors.address}</div>}
             </div>
-            <div className="form-group mb-3 col-md-6">
+            <div className="form-group mb-3 col-md-5">
               <label htmlFor="state">Enter State</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-0"
                 id="state"
                 name="state"
                 value={studentData.address.state}
                 onChange={handleAddressChange}
                 placeholder='Enter State'
-                required
+              // required
               />
+              {errors.address && <div style={{ color: 'red' }}>{errors.address}</div>}
             </div>
           </div>
-          <div className='d-flex flex-row'>
-            <div className="form-group mb-3 col-md-6">
+          <div className='d-flex flex-row justify-content-around'>
+            <div className="form-group mb-3 col-md-5">
               <label htmlFor="zip">Enter ZIP Code</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-0"
                 id="zip"
                 name="zip"
                 value={studentData.address.zip}
                 onChange={handleAddressChange}
                 placeholder='Enter ZIP Code'
-                required
+              // required
               />
+              {errors.address && <div style={{ color: 'red' }}>{errors.address}</div>}
             </div>
-            <div className="form-group mb-5 col-md-6">
+            <div className="form-group mb-5 col-md-5">
               <label htmlFor="country">Enter Country</label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control mb-0"
                 id="country"
                 name="country"
                 value={studentData.address.country}
                 onChange={handleAddressChange}
                 placeholder='Enter Country'
-                required
+              // required
               />
+              {errors.address && <div style={{ color: 'red' }}>{errors.address}</div>}
             </div>
           </div>
-          <button style={{ marginLeft: "0px" }} type="submit" className="btn btn-primary btn-block">
+          <button style={{ marginLeft: "34px" }} type="submit" className="btn btn-primary col-md-11">
             Register
           </button>
         </form>
