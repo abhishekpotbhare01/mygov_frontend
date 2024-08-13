@@ -76,20 +76,21 @@ const StudentSchemeForm = () => {
     if (!studentData.familyIncome) {
       errorObject.familyIncome = 'Family income is required *';
     }
+
     if (!studentData.address.village_street) {
-      errorObject.address = 'Village/Street is required *';
+      errorObject.village_street = 'Village/Street is required *';
     }
     if (!studentData.address.city) {
-      errorObject.address = 'City is required *';
+      errorObject.city = 'City is required *';
     }
     if (!studentData.address.state) {
-      errorObject.address = 'State is required *';
+      errorObject.state = 'State is required *';
     }
     if (!studentData.address.zip) {
-      errorObject.address = 'ZIP Code is required *';
+      errorObject.zip = 'ZIP Code is required *';
     }
     if (!studentData.address.country) {
-      errorObject.address = 'Country is required *';
+      errorObject.country = 'Country is required *';
     }
 
     if (Object.keys(errorObject).length > 0) {
@@ -251,7 +252,7 @@ const StudentSchemeForm = () => {
                 placeholder='Enter Village/Street'
               // required
               />
-              {errors.address && <div style={{ color: 'red' }}>{errors.address}</div>}
+              {errors.village_street && <div style={{ color: 'red' }}>{errors.village_street}</div>}
             </div>
           </div>
           <div className='d-flex flex-row justify-content-around'>
@@ -267,7 +268,7 @@ const StudentSchemeForm = () => {
                 placeholder='Enter City'
               // required
               />
-              {errors.address && <div style={{ color: 'red' }}>{errors.address}</div>}
+              {errors.city && <div style={{ color: 'red' }}>{errors.city}</div>}
             </div>
             <div className="form-group mb-3 col-md-5">
               <label htmlFor="state">Enter State</label>
@@ -281,7 +282,7 @@ const StudentSchemeForm = () => {
                 placeholder='Enter State'
               // required
               />
-              {errors.address && <div style={{ color: 'red' }}>{errors.address}</div>}
+              {errors.state && <div style={{ color: 'red' }}>{errors.state}</div>}
             </div>
           </div>
           <div className='d-flex flex-row justify-content-around'>
@@ -297,7 +298,7 @@ const StudentSchemeForm = () => {
                 placeholder='Enter ZIP Code'
               // required
               />
-              {errors.address && <div style={{ color: 'red' }}>{errors.address}</div>}
+              {errors.zip && <div style={{ color: 'red' }}>{errors.zip}</div>}
             </div>
             <div className="form-group mb-5 col-md-5">
               <label htmlFor="country">Enter Country</label>
@@ -311,7 +312,7 @@ const StudentSchemeForm = () => {
                 placeholder='Enter Country'
               // required
               />
-              {errors.address && <div style={{ color: 'red' }}>{errors.address}</div>}
+              {errors.country && <div style={{ color: 'red' }}>{errors.country}</div>}
             </div>
           </div>
           <button style={{ marginLeft: "34px" }} type="submit" className="btn btn-primary col-md-11">
