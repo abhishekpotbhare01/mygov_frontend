@@ -35,7 +35,7 @@ const ContactUs = () => {
       <Navbar />
       {/* Contact form */}
       <header className="about-us-header">
-        <h1>Contact Us</h1>
+        {/* <h1>Contact Us</h1> */}
         <nav className="breadcrumb">
           <a href="/">Home</a> <span>&gt;</span> <span>Contact Us</span>
         </nav>

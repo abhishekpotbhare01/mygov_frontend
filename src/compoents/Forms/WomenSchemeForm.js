@@ -1,112 +1,216 @@
 import React, { useState } from 'react';
 import './WomenSchemeForm.css';
-import axios from 'axios';
 
 const WomenSchemeForm = () => {
-  const [formData, setFormData] = useState({
-    DOB: '',
-    phoneNumber: '',
-    Occupation: '',
-    maritialStatus: '',
-    annualIncome: '',
-    address: '',
-    userId: '',
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [maritalStatus, setMaritalStatus] = useState('');
+  const [annualIncome, setAnnualIncome] = useState('');
+  const [address, setAddress] = useState({
+    village_street: '',
+    city: '',
+    state: '',
+    zip: '',
+    country: '',
   });
+  const [errors, setErrors] = useState({});
 
-  const [formErrors, setFormErrors] = useState({});
-  const [submissionStatus, setSubmissionStatus] = useState('');
-
-  const validateForm = () => {
-    const errors = {};
-
-    if (!formData.DOB) errors.DOB = "Date of Birth is required.";
-    if (!formData.phoneNumber) errors.phoneNumber = "Phone number is required.";
-    if (!formData.Occupation) errors.Occupation = "Occupation is required.";
-    if (!formData.maritialStatus) errors.maritialStatus = "Marital status is required.";
-    if (!formData.annualIncome || formData.annualIncome <= 0) errors.annualIncome = "Annual income must be greater than 0.";
-    if (!formData.address) errors.address = "Address is required.";
-    if (!formData.userId) errors.userId = "User ID is required.";
-
-    return errors;
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const errors = validateForm();
-    if (Object.keys(errors).length === 0) {
-      try {
-        const response = await axios.post('https://your-backend-api.com/api/women-scheme', formData);
-        console.log("Form submitted:", response.data);
-        setSubmissionStatus('Form submitted successfully.');
-      } catch (error) {
-        console.error("There was an error submitting the form!", error);
-        setSubmissionStatus('Failed to submit form. Please try again.');
-      }
+    const formData = {
+      firstName,
+      lastName,
+      phoneNumber,
+      maritalStatus,
+      annualIncome,
+      address,
+    };
+
+    const errorObject = {};
+
+    if (!firstName) {
+      errorObject.firstName = 'First name is required *';
+    }
+    if (!lastName) {
+      errorObject.lastName = 'Last name is required *';
+    }
+    if (!phoneNumber) {
+      errorObject.phoneNumber = 'Phone number is required *';
+    }
+    if (!maritalStatus) {
+      errorObject.maritalStatus = 'Marital status is required *';
+    }
+    if (!annualIncome) {
+      errorObject.annualIncome = 'Annual income is required *';
+    }
+    if (!address.village_street) {
+      errorObject.address = 'Village street address is required *';
+    }
+    if (!address.city) {
+      errorObject.city = 'City is required *';
+    }
+    if (!address.country) {
+      errorObject.country = 'Country name is required *';
+    }
+
+    if (Object.keys(errorObject).length > 0) {
+      setErrors(errorObject);
     } else {
-      setFormErrors(errors);
+      console.log('Form data:', formData);
+      // Add your form submission logic here
     }
   };
 
   return (
-    <div>
+    <div className='schemeForm'>
+      <h2>Scheme Registration Form</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Date of Birth:</label>
-          <input type="date" name="DOB" value={formData.DOB} onChange={handleChange} />
-          {formErrors.DOB && <span>{formErrors.DOB}</span>}
+        <div className='d-flex flex-row justify-content-around'>
+          <div className="form-group mb-3 col-md-5">
+            <label>
+              First Name:
+              <input
+                type="text"
+                value={firstName}
+                className="form-control"
+                onChange={(event) => setFirstName(event.target.value)}
+                placeholder="Enter first name"
+              />
+              {errors.firstName && <div style={{ color: 'red' }}>{errors.firstName}</div>}
+            </label>
+          </div>
+          <div className="form-group mb-3 col-md-5">
+            <label>
+              Last Name:
+              <input
+                type="text"
+                value={lastName}
+                className="form-control"
+                onChange={(event) => setLastName(event.target.value)}
+                placeholder="Enter last name"
+              />
+              {errors.lastName && <div style={{ color: 'red' }}>{errors.lastName}</div>}
+            </label>
+          </div>
         </div>
-
-        <div>
-          <label>Phone Number:</label>
-          <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
-          {formErrors.phoneNumber && <span>{formErrors.phoneNumber}</span>}
+        <div className='d-flex flex-row justify-content-around'>
+          <div className="form-group mb-3 col-md-5">
+            <label>
+              Phone Number:
+              <input
+                type="tel"
+                value={phoneNumber}
+                className="form-control"
+                onChange={(event) => setPhoneNumber(event.target.value)}
+                placeholder="Enter phone number"
+              />
+              {errors.phoneNumber && <div style={{ color: 'red' }}>{errors.phoneNumber}</div>}
+            </label>
+          </div>
+          <div className="form-group mb-3 col-md-5">
+            <label>
+              Marital Status:
+              <select
+                value={maritalStatus}
+                className="form-control"
+                onChange={(event) => setMaritalStatus(event.target.value)}
+              >
+                <option value="">Select marital status</option>
+                <option value="MARRIED">Married</option>
+                <option value="SINGLE">Single</option>
+              </select>
+              {errors.maritalStatus && <div style={{ color: 'red' }}>{errors.maritalStatus}</div>}
+            </label>
+          </div>
         </div>
-
-        <div>
-          <label>Occupation:</label>
-          <input type="text" name="Occupation" value={formData.Occupation} onChange={handleChange} />
-          {formErrors.Occupation && <span>{formErrors.Occupation}</span>}
+        <div className='d-flex flex-row justify-content-around'>
+          <div className="form-group mb-3 col-md-5">
+            <label>
+              Annual Income:
+              <input
+                type="number"
+                value={annualIncome}
+                className="form-control"
+                onChange={(event) => setAnnualIncome(event.target.value)}
+                placeholder="Enter annual income"
+              />
+              {errors.annualIncome && <div style={{ color: 'red' }}>{errors.annualIncome}</div>}
+            </label>
+          </div>
+          <div className="form-group mb-3 col-md-5">
+            <label>
+              Street:
+              <input
+                type="text"
+                value={address.village_street}
+                className="form-control"
+                onChange={(event) => setAddress({ ...address, village_street: event.target.value })}
+                placeholder="Enter street name"
+              />
+              {errors.village_street && <div style={{ color: 'red' }}>{errors.village_street}</div>}
+            </label>
+          </div>
         </div>
-
-        <div>
-          <label>Marital Status:</label>
-          <select name="maritialStatus" value={formData.maritialStatus} onChange={handleChange}>
-            <option value="">Select</option>
-            <option value="SINGLE">Single</option>
-            <option value="MARRIED">Married</option>
-          </select>
-          {formErrors.maritialStatus && <span>{formErrors.maritialStatus}</span>}
+        <div className='d-flex flex-row justify-content-around'>
+          <div className="form-group mb-3 col-md-5">
+            <label>
+              City:
+              <input
+                type="text"
+                value={address.city}
+                className="form-control"
+                onChange={(event) => setAddress({ ...address, city: event.target.value })}
+                placeholder="Enter city name"
+              />
+              {errors.city && <div style={{ color: 'red' }}>{errors.city}</div>}
+            </label>
+          </div>
+          <div className="form-group mb-3 col-md-5">
+            <label>
+              State:
+              <input
+                type="text"
+                value={address.state}
+                className="form-control"
+                onChange={(event) => setAddress({ ...address, state: event.target.value })}
+                placeholder="Enter state"
+              />
+            </label>
+          </div>
         </div>
-
-        <div>
-          <label>Annual Income:</label>
-          <input type="number" name="annualIncome" value={formData.annualIncome} onChange={handleChange} />
-          {formErrors.annualIncome && <span>{formErrors.annualIncome}</span>}
+        <div className='d-flex flex-row justify-content-around'>
+          <div className="form-group mb-3 col-md-5">
+            <label>
+              Zip:
+              <input
+                type="text"
+                value={address.zip}
+                className="form-control"
+                onChange={(event) => setAddress({ ...address, zip: event.target.value })}
+                placeholder="Enter zip code"
+              />
+              {errors.zip && <div style={{ color: 'red' }}>{errors.zip}</div>}
+            </label>
+          </div>
+          <div className="form-group mb-3 col-md-5">
+            <label>
+              Country:
+              <input
+                type="text"
+                value={address.country}
+                className="form-control"
+                onChange={(event) => setAddress({ ...address, country: event.target.value })}
+                placeholder="Enter country"
+              />
+              {errors.country && <div style={{ color: 'red' }}>{errors.country}</div>}
+            </label>
+          </div>
         </div>
-
-        <div>
-          <label>Address:</label>
-          <input type="text" name="address" value={formData.address} onChange={handleChange} />
-          {formErrors.address && <span>{formErrors.address}</span>}
-        </div>
-
-        <div>
-          <label>User ID:</label>
-          <input type="text" name="userId" value={formData.userId} onChange={handleChange} />
-          {formErrors.userId && <span>{formErrors.userId}</span>}
-        </div>
-
-        <button type="submit">Submit</button>
+        <button type="submit" className="btn btn-primary btn-block">
+          Apply
+        </button>
       </form>
-
-      {submissionStatus && <p>{submissionStatus}</p>}
     </div>
   );
 };

@@ -11,10 +11,8 @@ function SchemePage() {
   const [schemes, setSchemes] = useState([]);
   const [searchScheme, setSearchSchemes] = useState("");
   const [filteredSchemes, setfilteredSchemes] = useState([]);
-
   const [allSchemeId, setAllSchemeId] = useState([]);
   const [isApplied, setIsApplied] = useState(false);
-  // const [userid, setUserid] = useState();
 
   const navigate = useNavigate();
 
@@ -35,20 +33,41 @@ function SchemePage() {
   useEffect(() => {
     let userId = localStorage.getItem("loginResponse");
     if (!userId) {
-      throw new Error("Login response not found in local storage");
+      // throw new Error("Login response not found in local storage");
     }
-
+const resp=null;
     let userid2 = JSON.parse(userId).userId;
+    console.log(userid2)
     const fetchAllSchemeId = async (userid2) => {
       try {
-        const resp = await SchemeService.getAllSchemeId(userid2);
-        setAllSchemeId(resp);
-        console.log("schemeId list:", resp);
+       resp = await SchemeService.getAllSchemeId(userid2);
+        setAllSchemeId(resp)   
+        console.log("resp inside functoion ",resp)
+    
+        localStorage.setItem('resp',JSON.stringify(resp));
       } catch (error) {
         console.error("Error in fetching schemeId:", error);
       }
     };
-
+    
+   let results=allSchemeId.map((obj) => {
+      const scheme = obj.scheme || obj.schemeMaster;
+      let status =  "";
+              if(obj.womenScheme)
+                 status=obj.womenScheme.status
+              else if(obj.studentScheme)
+                  status= obj.studentScheme.status
+              else
+                  status=obj.farmerscheme.status;
+      // obj.womenScheme ? obj.womenScheme.status : obj.studentScheme.status;
+       
+      return {
+        schemeId: scheme.schemeId,
+        status: status,
+      };
+    });
+//console.log("results array",results)
+console.log("resp is ",resp)
     fetchAllSchemeId(userid2); // Call the async function
   }, []);
 
@@ -66,9 +85,10 @@ function SchemePage() {
 
   const handleSchemeStatus = (e) => {
     e.preventDefault();
-    localStorage.setItem("");
+    console.log("allschemeid:",allSchemeId)
     navigate("/scheme-status");
   };
+
   return (
     <>
       <Navbar />
@@ -82,7 +102,6 @@ function SchemePage() {
             onChange={(e) => setSearchSchemes(e.target.value)}
             id="exampleInput"
           />
-
           {/* view schemes button */}
           <button
             type="button"
@@ -114,13 +133,13 @@ function SchemePage() {
             );
           })}
         </div> */}
-
         <div className="schemes">
           {filteredSchemes.map((scheme, index) => {
-            const isApplied = allSchemeId.includes(scheme.schemeId);
+            //const isApplied = Object.keys(allSchemeId[index]?.scheme).includes(scheme.schemeId);
             return (
               <div key={index}>
-                <Schemes scheme={scheme} isApplied={isApplied} />
+                {/* <Schemes scheme={scheme} isApplied={isApplied} /> */}
+                <Schemes scheme={scheme} />
               </div>
             );
           })}

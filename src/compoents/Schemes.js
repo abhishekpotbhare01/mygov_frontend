@@ -27,7 +27,7 @@ function Schemes(props) {
           {props.scheme.schemeDescription}
          
         </p>
-       
+      
         {
           props.isApplied ? 
         

@@ -8,7 +8,7 @@ const AboutUs = () => {
       <Navbar />
       <div className="about-us">
         <header className="about-us-header">
-          <h1>About Us</h1>
+          {/* <h1>About Us</h1> */}
           <nav className="breadcrumb">
             <a href="/">Home</a> <span>&gt;</span> <span>About Us</span>
           </nav>
