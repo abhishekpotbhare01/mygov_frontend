@@ -27,6 +27,7 @@ function Schemes(props) {
           {props.scheme.schemeDescription}
          
         </p>
+        <p><b>Start Date:</b>{props.scheme.launchDate}</p>
       
         {
           props.isApplied ? 

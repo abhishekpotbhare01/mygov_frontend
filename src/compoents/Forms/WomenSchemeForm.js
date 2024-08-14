@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './WomenSchemeForm.css';
+import WomenSchemeService from '../../service/WomenSchemeService';
 
 const WomenSchemeForm = () => {
   const [firstName, setFirstName] = useState('');
@@ -45,10 +46,17 @@ const WomenSchemeForm = () => {
       errorObject.annualIncome = 'Annual income is required *';
     }
     if (!address.village_street) {
-      errorObject.address = 'Village street address is required *';
+      errorObject.village_street = 'Village street address is required *';
     }
     if (!address.city) {
       errorObject.city = 'City is required *';
+    }
+    if(!address.state){
+      errorObject.state= 'State is required *';
+    }
+    if(!address.zip)
+    {
+      errorObject.zip= 'Zip code is Required *';
     }
     if (!address.country) {
       errorObject.country = 'Country name is required *';
@@ -58,7 +66,34 @@ const WomenSchemeForm = () => {
       setErrors(errorObject);
     } else {
       console.log('Form data:', formData);
-      // Add your form submission logic here
+      
+        // get login userId
+        let userId = localStorage.getItem("loginResponse");
+        if (!userId) {
+          throw new Error("Login response not found in local storage");
+        }
+        userId = JSON.parse(userId).userId;
+
+
+        // get schemeId  
+        let schemeId = localStorage.getItem("schemeMasterData");
+        if (!schemeId) {
+          throw new Error("Scheme master data not found in local storage");
+        }
+        schemeId = JSON.parse(schemeId).schemeId;
+// console.log("schemeId",schemeId)
+      try{
+        const resp=WomenSchemeService.postWomenSchemeData(formData,userId,schemeId);
+        console.log(resp);
+
+      }catch(error)
+      {
+        console.log("error",error);
+      }
+      
+
+
+      
     }
   };
 
@@ -67,7 +102,7 @@ const WomenSchemeForm = () => {
       <h2>Scheme Registration Form</h2>
       <form onSubmit={handleSubmit}>
         <div className='d-flex flex-row justify-content-around'>
-          <div className="form-group mb-3 col-md-5">
+          <div className="form-group mb-2 col-md-5">
             <label>
               First Name:
               <input
@@ -80,7 +115,7 @@ const WomenSchemeForm = () => {
               {errors.firstName && <div style={{ color: 'red' }}>{errors.firstName}</div>}
             </label>
           </div>
-          <div className="form-group mb-3 col-md-5">
+          <div className="form-group mb-2 col-md-5">
             <label>
               Last Name:
               <input
@@ -95,7 +130,7 @@ const WomenSchemeForm = () => {
           </div>
         </div>
         <div className='d-flex flex-row justify-content-around'>
-          <div className="form-group mb-3 col-md-5">
+          <div className="form-group mb-2 col-md-5">
             <label>
               Phone Number:
               <input
@@ -108,7 +143,7 @@ const WomenSchemeForm = () => {
               {errors.phoneNumber && <div style={{ color: 'red' }}>{errors.phoneNumber}</div>}
             </label>
           </div>
-          <div className="form-group mb-3 col-md-5">
+          <div className="form-group mb-2 col-md-5">
             <label>
               Marital Status:
               <select
@@ -125,7 +160,7 @@ const WomenSchemeForm = () => {
           </div>
         </div>
         <div className='d-flex flex-row justify-content-around'>
-          <div className="form-group mb-3 col-md-5">
+          <div className="form-group mb-1 col-md-5">
             <label>
               Annual Income:
               <input
@@ -138,7 +173,7 @@ const WomenSchemeForm = () => {
               {errors.annualIncome && <div style={{ color: 'red' }}>{errors.annualIncome}</div>}
             </label>
           </div>
-          <div className="form-group mb-3 col-md-5">
+          <div className="form-group mb-2 col-md-5">
             <label>
               Street:
               <input
@@ -176,6 +211,7 @@ const WomenSchemeForm = () => {
                 onChange={(event) => setAddress({ ...address, state: event.target.value })}
                 placeholder="Enter state"
               />
+               {errors.state && <div style={{ color: 'red' }}>{errors.state}</div>}
             </label>
           </div>
         </div>
