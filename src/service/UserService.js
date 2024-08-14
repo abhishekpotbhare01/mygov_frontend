@@ -22,11 +22,13 @@ const RegisterUser = async (user) => {
 }
 
 
-
 const LoginUser = async (loginUser) => {
     try {
 
         const resp = await UserClient.post('/login', loginUser);
+
+        sessionStorage.setItem('jwttoken', resp.data.accessToken);
+        console.log("abhishek22 :: ",sessionStorage.getItem('jwttoken'));
 
         return resp.data;
 

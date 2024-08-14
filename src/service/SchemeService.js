@@ -10,6 +10,8 @@ const SchemeClient = axios.create({
 const GetAllSchemes = async () => {
   try {
     const response = await SchemeClient.get("/");
+
+    console.log("Abhishek 9999",response);
     return response.data;
   } catch (error) {
     console.error("Error while Retriving All Schemes:", error);

@@ -1,82 +1,92 @@
 import React, { useEffect, useState } from 'react';
-import { Navbar } from './Navbar'
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import SchemeClient from '../service/SchemeService';
+import AdminService from '../service/AdminService';
+import SetSession from "../service/AdminService";
 import { AdminNavbar } from './AdminNavbar';
-import './AdminComponent.css'
-import { Navigate, useNavigate } from 'react-router-dom';
-
-import SchemeClient from '../service/SchemeService.js'
-import AdminService from '../service/AdminService.js';
+import './AdminComponent.css';
 
 const AdminDashboard = () => {
-
     const navigate = useNavigate();
-
     const [schemesDetails, setSchemesDetails] = useState([]);
-
     const [applications, setApplications] = useState([]);
+    const [activeTab, setActiveTab] = useState('Pending');
 
+    // Fetch schemes and initial applications data
     useEffect(() => {
-
         const fetchData = async () => {
             try {
-                const res = await SchemeClient.GetAllSchemes();
-                setSchemesDetails(res)
-                const res1 = await AdminService.GetAllSchemesById(1, activeTab);
-                setApplications(res1);
-            } catch (error) {
 
-                console.error('SchemeClient or SchemeClient.getSchemes is not defined');
+                await SetSession();
+
+                const schemesRes = await SchemeClient.GetAllSchemes();
+
+                setSchemesDetails(schemesRes);
+
+                console.log('Schemes Abhishek ',schemesDetails);
+
+                // Fetch applications for the initial active tab
+                const applicationsRes = await AdminService.GetAllSchemesById(1, activeTab);
+                setApplications(applicationsRes);
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    Swal.fire({
+                        title: 'Session Expired',
+                        text: 'Please Login Again',
+                        icon: 'error',
+                        confirmButtonText: 'Login'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate('/admin-login');
+                        }
+                    });
+                } else {
+                    console.error('Error while fetching schemes or applications:', error);
+                }
             }
         };
 
         fetchData();
 
-    }, []);
 
-    const [activeTab, setActiveTab] = useState('Pending');
+    }, []); // Empty dependency array to run only once
 
-
+    // Fetch applications when activeTab changes
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchApplications = async () => {
             try {
-                const res = await AdminService.GetAllSchemesById(2, activeTab);
-                setApplications(res); // Ensure res is the correct data structure
-                console.log('Applications:', res);
+                const applicationsRes = await AdminService.GetAllSchemesById(1, activeTab);
+                setApplications(applicationsRes);
+                console.log('Applications:', applicationsRes);
             } catch (error) {
                 console.error('Error while fetching applications:', error);
             }
         };
 
-        fetchData();
-    }, [activeTab]);
+        fetchApplications();
+    }, [activeTab]); // Dependency on activeTab
 
-    //  console.log("Data : ", schemesDetails);
-
-
+    // Handle tab click
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
-    const schemeNames = schemesDetails.map((scheme) => {
-        const schemeNames = {
-            "schemeId": scheme.schemeId,
-            "name": scheme.schemeName
-        }
+    // Extract scheme names for the select dropdown
+    const schemeNames = schemesDetails.map((scheme) => ({
+        schemeId: scheme.schemeId,
+        name: scheme.schemeName
+    }));
 
-        return schemeNames;
-
-    });
-
-
+    // Handle details click
     const handleDetailsClick = (app) => {
         const application = { application: app };
         navigate('/approval-page', { state: application });
     };
 
-
     return (
         <>
-            <AdminNavbar></AdminNavbar>
+            <AdminNavbar />
             <div className='schemelist'>
                 <label htmlFor="schemelist">Choose Scheme</label>
                 <select name="schemelist" id="schemelist">
@@ -90,10 +100,7 @@ const AdminDashboard = () => {
                         <option value="">No Schemes Available</option>
                     )}
                 </select>
-
-
             </div>
-
 
             <div className="container-fluid mt-3">
                 <div className="row mb-3">
@@ -126,10 +133,6 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
-
-
-
-
                     <div className="col-md-9">
                         {applications.length > 0 ? (
                             applications.map((app) => (
@@ -157,7 +160,7 @@ const AdminDashboard = () => {
                         )}
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     );
 };

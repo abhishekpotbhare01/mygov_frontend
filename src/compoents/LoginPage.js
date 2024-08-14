@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./LoginPage.css";
 import { Navbar } from "./Navbar";
 import UserService from "../service/UserService";
+import Swal from "sweetalert2";
 
 import { useNavigate } from "react-router-dom";
 
@@ -25,8 +26,24 @@ function LoginPage(props) {
       console.log("login response  is ", resp);
       localStorage.setItem("loginResponse", JSON.stringify(resp));
 
-      alert("Login Successfull....!!!");
-      navigate("/schemepage");
+      Swal.fire({
+        title: 'Login Successful!',
+        text: 'You have successfully logged in.',
+        icon: 'success',
+        confirmButtonText: 'Continue',
+        customClass: {
+          popup: 'custom-popup-class', // Optional custom CSS class for styling
+        },
+      }).then(() => {
+
+        if (resp.role === "ROLE_ADMIN") {
+          navigate("/admin", { replace: true });
+
+
+        } else if (resp.role === "ROLE_USER") {
+          navigate("/schemepage", { replace: true });
+        }
+      });
     } catch (error) {
       console.error("error while Login ", error);
       alert("Login Failed..!!");
