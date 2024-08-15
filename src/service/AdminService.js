@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const AdminClient = axios.create(
     {
@@ -7,49 +8,86 @@ const AdminClient = axios.create(
         headers: {
             'Content-Type': 'application/json'
         }
-    });
+    }
+);
 
+const SetSession = async (token) => {
+    sessionStorage.setItem('jwttoken', token);
+    return;
+};
 
-const GetAllSchemesById = async (schemeId, status) => {
+const GetSessionToken = async () => {
+    const token = sessionStorage.getItem("jwttoken");
+    if (!token) {
+        return null; // or throw an error
+    }
+    return token;
+};
 
+const GetAllSchemesById = async (schemeId, status, navigate) => {
     try {
-
-        const response = await AdminClient.get(`/${schemeId}`,
-            {
-                params: {
-                    status: `${status.toUpperCase()}`
-                }
+        const token = await GetSessionToken();
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const response = await AdminClient.get(`/${schemeId}`, {
+            params: {
+                status: `${status.toUpperCase()}`
+            },
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
-        );
+        });
         return response.data;
-
     } catch (error) {
-        console.error('Error while Retriving Schemes By ID:', error);
+        if (error.response && error.response.status === 401) {
+            Swal.fire({
+                title: 'Unauthorized',
+                text: 'You are not authorized to access this resource. Please log in.',
+                icon: 'error',
+                confirmButtonText: 'Login',
+                customClass: {
+                    popup: 'custom-popup-class',
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // navigate('/admin-login');
+                    window.location.href = '/admin-login';
+                }
+            });
+        } else {
+            Swal.fire({
+                title: 'Error',
+                text: 'An error occurred while fetching schemes.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+        }
         throw error;
     }
-}
-
-// await AdminService.updateApplicationStatus(applicationId, status, comment);
+};
 
 const updateApplicationStatus = async (approvalPayLoad) => {
-
     try {
-
-        console.log("AdminClient :  ", approvalPayLoad);
-        const resp = await AdminClient.post("/approval", approvalPayLoad);
-
+        const token = await GetSessionToken();
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const resp = await AdminClient.post("/approval", approvalPayLoad, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
         console.log(resp.data);
-
-
-
     } catch (error) {
-        console.error('Error while Approving Schemes:', error);
+        Swal.fire({
+            title: 'Error',
+            text: 'An error occurred while approving schemes.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+        });
         throw error;
     }
+};
 
-
-
-
-}
-
-export default { GetAllSchemesById, updateApplicationStatus }
+export default { GetAllSchemesById, updateApplicationStatus, SetSession, GetSessionToken };

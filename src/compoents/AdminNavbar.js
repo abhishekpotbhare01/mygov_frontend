@@ -7,6 +7,15 @@ export function AdminNavbar() {
 
   const handleClick = () => setClick(!click);
 
+
+  const handleLogout=()=>{
+
+    sessionStorage.removeItem("jwttoken");
+    window.location.href="/admin-login";
+
+
+  }
+
   return (
     <>
       <nav className="navbar navbar-dark bg-dark">
@@ -46,7 +55,7 @@ export function AdminNavbar() {
                   to="/logout"
                   activeClassName="active"
                   className="nav-links"
-                  onClick={handleClick}
+                  onClick={handleLogout}
                 >
                   Logout
                 </NavLink>

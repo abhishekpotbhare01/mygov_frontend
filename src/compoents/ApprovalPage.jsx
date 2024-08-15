@@ -27,14 +27,18 @@ function ApprovalPage() {
 
       setApplicationId(location.state.application.farmerScheme.farmerSchemeId);
     } else if (location.state.application.studentScheme) {
-
       setSubScheme(location.state.application.farmerScheme);
 
       setApplicationId(location.state.application.farmerScheme.farmerSchemeId);
+    }
+    else if (location.state.application.womenScheme) {
+      setSubScheme(location.state.application.womenScheme);
+
+      setApplicationId(location.state.application.womenScheme.id);
     } else {
       console.log("No Scheme found");
     }
-  }, [location.state]);
+  }, [scheme, subScheme, comment, location.state]);
 
   const handleApprove = async (status, comment, schemeConst) => {
     try {
@@ -47,7 +51,7 @@ function ApprovalPage() {
       }
 
       const resp = await AdminService.updateApplicationStatus(approvalPayLoad);
-
+      sessionStorage.setItem('schemeId', location.state.application.schemeId);
       Swal.fire({
         title: 'Approved!',
         text: `Application has been approved with the following comment: "${comment}"`,
@@ -57,7 +61,11 @@ function ApprovalPage() {
           popup: 'custom-popup-class', // Optional custom CSS class for styling
         },
       });
-      navigate(-1); 
+      navigate(-1, {
+        state: {
+          schemeId: location.state.application.schemeId
+        }
+      });
 
     } catch (error) {
       console.error('Error approving application:', error);
@@ -69,7 +77,11 @@ function ApprovalPage() {
         icon: 'error',
         confirmButtonText: 'OK',
       });
-      navigate(-1); 
+      navigate(-1, {
+        state: {
+          schemeId: location.state.application.schemeId
+        }
+      });
     }
   }
 
@@ -89,7 +101,7 @@ function ApprovalPage() {
 
       const resp = await AdminService.updateApplicationStatus(rejecetdPayLoad);
       console.log('Rejected with comment:', comment);
-
+      sessionStorage.setItem('schemeId', location.state.application.schemeId);
       Swal.fire({
         title: 'Rejected!',
         text: `Application has been rejected with the following comment: "${comment}"`,
@@ -99,7 +111,11 @@ function ApprovalPage() {
           popup: 'custom-popup-class', // Optional custom CSS class for styling
         },
       });
-      navigate(-1); 
+      navigate(-1, {
+        state: {
+          schemeId: location.state.application.schemeId
+        }
+      });
 
 
     } catch (error) {
@@ -111,7 +127,11 @@ function ApprovalPage() {
         confirmButtonText: 'OK',
       });
 
-      navigate(-1); 
+      navigate(-1, {
+        state: {
+          schemeId: location.state.application.schemeId
+        }
+      });
 
     }
   };

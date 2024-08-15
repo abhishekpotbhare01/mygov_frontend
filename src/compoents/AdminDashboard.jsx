@@ -1,99 +1,139 @@
 import React, { useEffect, useState } from 'react';
-import { Navbar } from './Navbar'
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import SchemeClient from '../service/SchemeService';
+import AdminService from '../service/AdminService';
+import SetSession from "../service/AdminService";
 import { AdminNavbar } from './AdminNavbar';
-import './AdminComponent.css'
-import { Navigate, useNavigate } from 'react-router-dom';
+import './AdminComponent.css';
 
-import SchemeClient from '../service/SchemeService.js'
-import AdminService from '../service/AdminService.js';
+import { useLocation } from 'react-router-dom';
 
 const AdminDashboard = () => {
 
+    const location = useLocation();
+
     const navigate = useNavigate();
-
     const [schemesDetails, setSchemesDetails] = useState([]);
-
     const [applications, setApplications] = useState([]);
+    const [activeTab, setActiveTab] = useState('Pending');
+    const initialSchemeId = location.state?.schemeId;
+    const [schemeId, setSchemeId] = useState(initialSchemeId || 1);
+
 
     useEffect(() => {
-
+        var schemeId1 = location.state?.schemeId;
+        if (schemeId1) {
+            setSchemeId(schemeId1);
+        }
         const fetchData = async () => {
             try {
-                const res = await SchemeClient.GetAllSchemes();
-                setSchemesDetails(res)
-                const res1 = await AdminService.GetAllSchemesById(1, activeTab);
-                setApplications(res1);
-            } catch (error) {
 
-                console.error('SchemeClient or SchemeClient.getSchemes is not defined');
+                const schemesRes = await SchemeClient.GetAllSchemes();
+
+                setSchemesDetails(schemesRes);
+
+                console.log('Schemes Abhishek ', schemesDetails);
+
+
+                const applicationsRes = await AdminService.GetAllSchemesById(schemeId, activeTab, navigate);
+                setApplications(applicationsRes);
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    Swal.fire({
+                        title: 'Session Expired',
+                        text: 'Please Login Again',
+                        icon: 'error',
+                        confirmButtonText: 'Login'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate('/admin-login');
+                        }
+                    });
+                } else {
+                    console.error('Error while fetching schemes or applications:', error);
+                }
             }
         };
-
+ 
         fetchData();
+
 
     }, []);
 
-    const [activeTab, setActiveTab] = useState('Pending');
-
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchApplications = async () => {
             try {
-                const res = await AdminService.GetAllSchemesById(2, activeTab);
-                setApplications(res); // Ensure res is the correct data structure
-                console.log('Applications:', res);
+
+                const applicationsRes = await AdminService.GetAllSchemesById(schemeId, activeTab);
+                setApplications(applicationsRes);
+                console.log('Applications:', applicationsRes);
             } catch (error) {
                 console.error('Error while fetching applications:', error);
             }
         };
 
-        fetchData();
-    }, [activeTab]);
-
-    //  console.log("Data : ", schemesDetails);
+        fetchApplications();
+    }, [schemeId, activeTab]);
 
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
-    const schemeNames = schemesDetails.map((scheme) => {
-        const schemeNames = {
-            "schemeId": scheme.schemeId,
-            "name": scheme.schemeName
-        }
 
-        return schemeNames;
+    const schemeNames = schemesDetails.map((scheme) => ({
+        schemeId: scheme.schemeId,
+        name: scheme.schemeName
+    }));
 
-    });
-
-
+    // Handle details click
     const handleDetailsClick = (app) => {
         const application = { application: app };
         navigate('/approval-page', { state: application });
     };
 
+    const handleSchemeChange = async (event) => {
+        console.log(event.target.value);
+        setSchemeId(event.target.value);
+    }
+
+    const handleAddSchemeClick = () => {
+
+    }
 
     return (
         <>
-            <AdminNavbar></AdminNavbar>
-            <div className='schemelist'>
-                <label htmlFor="schemelist">Choose Scheme</label>
-                <select name="schemelist" id="schemelist">
-                    {schemeNames && schemeNames.length > 0 ? (
-                        schemeNames.map((scheme, index) => (
-                            <option key={index} value={scheme.schemeId}>
-                                {scheme.name ? scheme.name.toUpperCase() : "Unnamed Scheme"}
-                            </option>
-                        ))
-                    ) : (
-                        <option value="">No Schemes Available</option>
-                    )}
-                </select>
+            <AdminNavbar />
+            <div>
 
 
+                <div className='schemelist' style={{ display: 'flex', alignItems: 'center' }}>
+                    <label htmlFor="schemelist">Choose Scheme</label>
+                    <select name="schemelist" id="schemelist" onChange={(event) => handleSchemeChange(event)}>
+                        {schemeNames && schemeNames.length > 0 ? (
+                            schemeNames.map((scheme, index) => (
+                                <option key={index} value={scheme.schemeId}>
+                                    {scheme.name ? scheme.name.toUpperCase() : "Unnamed Scheme"}
+                                </option>
+                            ))
+                        ) : (
+                            <option value="">No Schemes Available</option>
+                        )}
+                    </select>
+                    <div style={{ marginRight: '0' }}>
+
+                    </div>
+                </div>
+                <button
+                    style={{ marginRight: 0 }}
+                    className="btn btn-primary text-uppercase"
+                    onClick={handleAddSchemeClick}
+                >
+                    Add Scheme
+                </button>
             </div>
-
 
             <div className="container-fluid mt-3">
                 <div className="row mb-3">
@@ -125,41 +165,68 @@ const AdminDashboard = () => {
                             ))}
                         </div>
                     </div>
-
-
-
-
-
+ 
                     <div className="col-md-9">
                         {applications.length > 0 ? (
                             applications.map((app) => (
-                                <div key={`${app.farmerScheme ? app.farmerScheme.userId.userId : app.studentScheme ? app.studentScheme.userId.userId : app.id}`} className="card mb-3">
+                                <div
+                                    key={`${app.farmerScheme ? app.farmerScheme.userId.userId : app.studentScheme ? app.studentScheme.userId.userId : app.id}`}
+                                    className="card mb-3 shadow-sm"
+                                >
                                     <div className="card-body d-flex justify-content-between align-items-center">
                                         {app.farmerScheme ? (
-                                            <span className="text-bold text-end">
-                                                {app.farmerScheme.userId.firstName} &nbsp; {app.farmerScheme.userId.lastName} &nbsp; &nbsp; {app.scheme.schemeName}
-                                            </span>
+                                            <div className="text-end">
+                                                <h5 className="mb-1 text-primary">
+                                                    {app.farmerScheme.userId.firstName.toUpperCase()} {app.farmerScheme.userId.lastName.toUpperCase()}
+                                                </h5>
+                                                <p className="mb-0 text-muted text-primary">{app.scheme.schemeName}</p>
+                                            </div>
                                         ) : app.studentScheme ? (
-                                            <span className="text-end">
-                                                {app.studentScheme.userId.firstName} &nbsp; {app.studentScheme.userId.lastName} &nbsp; &nbsp; {app.scheme.schemeName}
-                                            </span>
+                                            <div className="text-end">
+                                                <h5 className="mb-1 text-success">
+                                                    {app.studentScheme.userId.firstName.toUpperCase()} {app.studentScheme.userId.lastName.toUpperCase()}
+                                                </h5>
+                                                <p className="mb-0 text-muted text-primary">{app.scheme.schemeName}</p>
+                                            </div>
+                                        ) : app.womenScheme ? (
+                                            <div className="text-end">
+                                                <h5 className="mb-1 text-info">
+                                                    {app.womenScheme.userId.firstName.toUpperCase()} {app.womenScheme.userId.lastName.toUpperCase()}
+                                                </h5>
+                                                <p className="mb-0 text-muted text-primary">{app.scheme.schemeName}</p>
+                                            </div>
                                         ) : (
-                                            <span>No scheme found</span>
+                                            <div className="text-end">
+                                                <h5 className="mb-1 text-danger">No scheme found</h5>
+                                            </div>
                                         )}
-                                        <button className="btn btn-outline-primary btn-sm" onClick={() => handleDetailsClick(app)}>
+                                        <button
+                                            className="btn btn-outline-primary btn-sm"
+                                            style={{
+                                                backgroundColor: "#007bff",
+                                                color: "#fff",
+                                                border: "none",
+                                                borderRadius: "20px",
+                                                padding: "8px 16px"
+                                            }}
+                                            onClick={() => handleDetailsClick(app)}
+                                        >
                                             See Details
                                         </button>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            <div>No applications available</div>
+                            <div className="alert alert-warning text-center" role="alert">
+                                No applications available
+                            </div>
                         )}
                     </div>
+
                 </div>
-            </div >
+            </div>
         </>
     );
 };
-
+ 
 export default AdminDashboard;
