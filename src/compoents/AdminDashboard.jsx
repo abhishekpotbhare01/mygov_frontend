@@ -55,7 +55,7 @@ const AdminDashboard = () => {
                 }
             }
         };
-
+ 
         fetchData();
 
 
@@ -165,7 +165,7 @@ const AdminDashboard = () => {
                             ))}
                         </div>
                     </div>
-
+ 
                     <div className="col-md-9">
                         {applications.length > 0 ? (
                             applications.map((app) => (
@@ -228,5 +228,5 @@ const AdminDashboard = () => {
         </>
     );
 };
-
+ 
 export default AdminDashboard;
