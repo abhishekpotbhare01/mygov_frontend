@@ -7,11 +7,21 @@ const UserClient = axios.create(
             'Content-Type': 'application/json'
         }
     });
+UserClient.interceptors.request.use(config => {
+    const token = sessionStorage.getItem('jwttoken'); // Use sessionStorage
 
+    if (token && !config.url.includes('/login') && !config.url.includes('/register')) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+}, error => {
+    return Promise.reject(error);
+});
 
 const RegisterUser = async (user) => {
     try {
-        const resp = await UserClient.post("/", user);
+        const resp = await UserClient.post("/register", user);
 
         return resp.data;
 
@@ -28,7 +38,7 @@ const LoginUser = async (loginUser) => {
         const resp = await UserClient.post('/login', loginUser);
 
         sessionStorage.setItem('jwttoken', resp.data.accessToken);
-        console.log("abhishek22 :: ",sessionStorage.getItem('jwttoken'));
+        console.log("abhishek22 :: ", sessionStorage.getItem('jwttoken'));
 
         return resp.data;
 

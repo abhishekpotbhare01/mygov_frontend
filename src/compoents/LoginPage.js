@@ -3,8 +3,9 @@ import "./LoginPage.css";
 import { Navbar } from "./Navbar";
 import UserService from "../service/UserService";
 import Swal from "sweetalert2";
-
 import { useNavigate } from "react-router-dom";
+
+import AdminService from "../service/AdminService";
 
 function LoginPage(props) {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function LoginPage(props) {
 
       console.log("login response  is ", resp);
       localStorage.setItem("loginResponse", JSON.stringify(resp));
+      await AdminService.SetSession(resp.accessToken)
 
       Swal.fire({
         title: 'Login Successful!',
@@ -37,6 +39,7 @@ function LoginPage(props) {
       }).then(() => {
 
         if (resp.role === "ROLE_ADMIN") {
+
           navigate("/admin", { replace: true });
 
 

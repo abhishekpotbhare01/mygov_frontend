@@ -8,35 +8,38 @@ const AdminClient = axios.create(
         headers: {
             'Content-Type': 'application/json'
         }
-    });
+    }
+);
 
-
-
-const SetSession =  () => {
-    const token = sessionStorage.getItem("jwttoken");
-    return token; // Return the token so it can be used later
+const SetSession = async (token) => {
+    sessionStorage.setItem('jwttoken', token);
+    return;
 };
 
-const GetAllSchemesById = async (schemeId, status) => {
-
-    try {
-        const token = SetSession();
-        const response = await AdminClient.get(`/${schemeId}`,
-            {
-                params: {
-                    status: `${status.toUpperCase()}`
-                },
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }
-        );
-
-        return response.data;
-
-
+const GetSessionToken = async () => {
+    const token = sessionStorage.getItem("jwttoken");
+    if (!token) {
+        return null; // or throw an error
     }
-    catch (error) {
+    return token;
+};
+
+const GetAllSchemesById = async (schemeId, status, navigate) => {
+    try {
+        const token = await GetSessionToken();
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const response = await AdminClient.get(`/${schemeId}`, {
+            params: {
+                status: `${status.toUpperCase()}`
+            },
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response.data;
+    } catch (error) {
         if (error.response && error.response.status === 401) {
             Swal.fire({
                 title: 'Unauthorized',
@@ -44,36 +47,47 @@ const GetAllSchemesById = async (schemeId, status) => {
                 icon: 'error',
                 confirmButtonText: 'Login',
                 customClass: {
-                    popup: 'custom-popup-class', // Optional custom CSS class for styling
+                    popup: 'custom-popup-class',
                 },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // navigate('/admin-login');
+                    window.location.href = '/admin-login';
+                }
+            });
+        } else {
+            Swal.fire({
+                title: 'Error',
+                text: 'An error occurred while fetching schemes.',
+                icon: 'error',
+                confirmButtonText: 'OK',
             });
         }
         throw error;
     }
-}
-
-
+};
 
 const updateApplicationStatus = async (approvalPayLoad) => {
-
     try {
-        const token = SetSession();
-        console.log("AdminClient :  ", approvalPayLoad);
+        const token = await GetSessionToken();
+        if (!token) {
+            throw new Error('No token found');
+        }
         const resp = await AdminClient.post("/approval", approvalPayLoad, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
-        }
-        );
-
+        });
         console.log(resp.data);
-
-
     } catch (error) {
-        console.error('Error while Approving Schemes:', error);
+        Swal.fire({
+            title: 'Error',
+            text: 'An error occurred while approving schemes.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+        });
         throw error;
     }
+};
 
-}
-
-export default { GetAllSchemesById, updateApplicationStatus ,SetSession}
+export default { GetAllSchemesById, updateApplicationStatus, SetSession, GetSessionToken };
