@@ -21,6 +21,15 @@ const RegisterUser = async (user) => {
     }
 }
 
+const ResetPassword = async (emailId, newPassword) => {
+    try {
+      const response = await UserClient.post('/reset-password', { email: emailId, password: newPassword });
+      return response.data; 
+    } catch (error) {
+      throw error; 
+    }
+  };
+  
 
 
 const LoginUser = async (loginUser) => {
@@ -36,4 +45,4 @@ const LoginUser = async (loginUser) => {
     }
 };
 
-export default { RegisterUser, LoginUser };
+export default { RegisterUser,ResetPassword, LoginUser };

@@ -16,6 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import SchemeStatus from "./compoents/SchemeStatus";
+import ForgotPassword from "./compoents/ForgotPassword";
 
 function App() {
   return (
@@ -54,7 +55,8 @@ function App() {
               < />
             </Route> */}
           <Route path="/scheme-status" element={<SchemeStatus />} />
- 
+           <Route path="/forgotpassword"element={<ForgotPassword/>}
+           />
         </Routes>
       </Router>
     </div>

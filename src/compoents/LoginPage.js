@@ -73,7 +73,7 @@ function LoginPage(props) {
               Remember me
             </label>
             {/* Simple link */}
-            <a href="#!" className="text-danger text-decoration-none">
+            <a href="forgotpassword" className="text-danger text-decoration-none">
               Forgot password?
             </a>
 
@@ -82,21 +82,6 @@ function LoginPage(props) {
           <button type="submit" className="btn btn-primary btn-block login-btn">
             Submit
           </button>
-          <div className="text-center">
-            {/* {<div>  <p>or sign up with:</p>
-              <button type="button" className="btn btn-outline-primary btn-block">
-                <i className="fab fa-google mr-2"></i> Login with Google
-              </button>
-              <button type="button" class="btn btn-outline-primary btn-block">
-                <i className="fab fa-facebook-f mr-2"></i> Login with Facebook
-              </button></div>}
-
-
-            {<div className="text-center mt-2">
-              {" "}
-              New user? <a href="#">Sign up</a>
-            </div>} */}
-          </div>
         </form>
       </div>
     </>

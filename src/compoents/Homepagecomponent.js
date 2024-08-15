@@ -20,8 +20,8 @@ function Homepagecomponent() {
       <Navbar />
 
       <HomePage></HomePage>
-      <div class="main">
-==== BASE ====
+      <div className="main">
+{/* ==== BASE ==== */}
         {/**  <!-----------------------------------Slider---------------------------------->*/}
         {/* <div id="carouselExampleIndicators" className="carousel slide carousel-custom-height col-12" data-ride="carousel"   >
       <ol className="carousel-indicators">
@@ -51,16 +51,16 @@ function Homepagecomponent() {
     </div> */}
 
 
-==== BASE ====
+{/* ==== BASE ==== */}
         {/** <!------------------------------Cards--------------------------------> */}
-        <div class="card-group mt-3 col-md-12">
-          <div class="card ">
+        <div className="card-group mt-3 col-md-12">
+          <div className="card ">
             <div d-flex flex-row junstify-content-center>
               <img src={img1} alt="ladli-behna-yojana" />
             </div>
 
-            <div class="card-body">
-              <p class="card-text ">
+            <div className="card-body">
+              <p className="card-text ">
                 Ladli Behna Yojana की मध्‍य प्रदेश सरकार द्वारा 28 जनवरी 2023 को
                 आरम्‍भ की गई थी। इसका उद्येश्‍य महिलाओं के स्वास्थ्य एवं पोषण
                 तथा आर्थिक स्वावलम्बन को बढाना है। इस योजना के तहत मध्‍य प्रदेश
@@ -69,13 +69,13 @@ function Homepagecomponent() {
             </div>
           </div>
 
-          <div class="card ">
+          <div className="card ">
             <div d-flex flex-row junstify-content-center>
               <img src={pmkisan} alt="pm_kisan-yojana" />
             </div>
 
-            <div class="card-body">
-              <p class="card-text ">
+            <div className="card-body">
+              <p className="card-text ">
                 प्रधानमंत्री किसान सन्मान निधी योजना ही शेतकऱ्यांना आर्थिक मदत
                 देण्यासाठी भारत सरकारची विशेष योजना आहे. यासाठी पूर्णपणे भारत
                 सरकारकडून निधी दिला जातो. या योजनेअंतर्गत सर्व भू-धारक शेतकरी
@@ -86,14 +86,14 @@ function Homepagecomponent() {
           </div>
         </div>
 
-        <div class="card-group mt-3 col-md-12">
-          <div class="card ">
+        <div className="card-group mt-3 col-md-12">
+          <div className="card ">
             <div d-flex flex-row junstify-content-center>
               <img src={ayushmanbharat} alt="Ayushman Bharat yojana" />
             </div>
 
-            <div class="card-body">
-              <p class="card-text ">
+            <div className="card-body">
+              <p className="card-text ">
                 एकत्रित आयुष्मान भारत प्रधानमंत्री जन आरोग्य योजना व महात्मा
                 ज्योतिराव फुले जन आरोग्य योजना अंतर्गत प्रति वर्ष प्रती कुटुंब
                 पाच लाख रुपया पर्यंतचे मोफत उपचार महाराष्ट्र व देशातील इतर
@@ -103,13 +103,13 @@ function Homepagecomponent() {
             </div>
           </div>
 
-          <div class="card ">
+          <div className="card ">
             <div d-flex flex-row junstify-content-center>
               <img src={ujuwala} alt="PM Ujjwala Yojana" />
             </div>
 
-            <div class="card-body">
-              <p class="card-text ">
+            <div className="card-body">
+              <p className="card-text ">
                 या योजनेअंतर्गत पात्र कुटुंबांना एका वर्षात १२ गॅस सिलेंडरचा लाभ
                 घेता येणार आहे. म्हणजेच बाराशे गॅस सिलेंडर तुम्हाला साडेचारशे
                 रुपये प्रति सिलेंडर या किमतीत मिळणार आहे. प्रधानमंत्री उज्ज्वला

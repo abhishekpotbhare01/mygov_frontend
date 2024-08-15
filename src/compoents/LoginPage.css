@@ -12,7 +12,7 @@ form {
 }
 .forgot-div {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .login-head {
   font-weight: 700;

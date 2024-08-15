@@ -12,15 +12,18 @@ function SchemeStatus() {
             else if(obj.studentScheme)
                 status= obj.studentScheme.status
             else
-                status=obj.farmerscheme.status;
+                status=obj.farmerScheme.status;
     // obj.womenScheme ? obj.womenScheme.status : obj.studentScheme.status;
      
     return {
       schemeId: scheme.schemeId,
       schemeName: scheme.schemeName,
       status: status,
+      applicationDate:obj.womenScheme.applicationDate,
+      // comment:obj.womenScheme.comment
     };
   });
+  console.log("results ui:",results)
 
 
   return (
@@ -41,7 +44,8 @@ function SchemeStatus() {
                 <th scope="col">SR.NO</th>
                 <th scope="col">SchemeId</th>
                 <th scope="col">SchemeName</th>
-                {/* <th scope="col">Applied Date</th> */}
+                <th scope="col">Applied Date</th>
+                {/* <th scope="col">Comment</th> */}
                 <th scope="col">Status</th>
               </tr>
             </thead>
@@ -52,7 +56,8 @@ function SchemeStatus() {
                     <td scope="row">{i + 1}</td>
                     <td>{e.schemeId}</td>
                     <td>{e.schemeName}</td>
-
+                    <td>{e.applicationDate}</td>
+                    {/* <td>{e.comment}</td> */}
                     <td>{e.status}</td>
                   </tr>
                 );

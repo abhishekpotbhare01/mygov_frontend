@@ -35,7 +35,7 @@ function SchemePage() {
     if (!userId) {
       // throw new Error("Login response not found in local storage");
     }
-const resp=null;
+let resp=null;
     let userid2 = JSON.parse(userId).userId;
     console.log(userid2)
     const fetchAllSchemeId = async (userid2) => {
@@ -113,35 +113,27 @@ console.log("resp is ",resp)
         </div>
 
         {/* scheme cards */}
-        {/* <div className="schemes">
-          {filteredSchemes.map((scheme, index) => {  1
-            allSchemeId.map((id)=>{
-                
-            if(scheme.schemeId === id){
-                setIsApplied(true);
-                return true;
-            }
-          })
-            return (
-
-              <div key={index}>
-                <Schemes scheme={scheme} 
-                         isApplied={isApplied} 
-                         allSchemeId={allSchemeId}
-                         setIsApplied={setIsApplied} />
-              </div>
-            );
-          })}
-        </div> */}
         <div className="schemes">
-          {filteredSchemes.map((scheme, index) => {
-            //const isApplied = Object.keys(allSchemeId[index]?.scheme).includes(scheme.schemeId);
-            return (
-              <div key={index}>
-                {/* <Schemes scheme={scheme} isApplied={isApplied} /> */}
-                <Schemes scheme={scheme} />
-              </div>
-            );
+      {filteredSchemes.map((scheme, index) => {
+        // Check if the schemeId exists in any object in the allSchemeId array
+        const appliedScheme = allSchemeId.find(
+          (item) => item.scheme.schemeId === scheme.schemeId
+        );
+
+        // Set isApplied based on the presence of the schemeId
+        const isApplied = appliedScheme !== undefined;
+
+        return (
+          <div key={index}>
+            <Schemes
+              scheme={scheme}
+              isApplied={isApplied}
+              allSchemeId={allSchemeId}
+              setIsApplied={setIsApplied}
+            />
+          </div>
+        );
+
           })}
         </div>
       </div>

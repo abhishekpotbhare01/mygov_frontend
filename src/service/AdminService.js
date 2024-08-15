@@ -23,7 +23,6 @@ const GetAllSchemesById = async (schemeId, status) => {
         );
         return response.data;
 
-
     } catch (error) {
         console.error('Error while Retriving Schemes By ID:', error);
         throw error;

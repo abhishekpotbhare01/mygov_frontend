@@ -6,8 +6,9 @@ const WomenSchemeForm = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [maritalStatus, setMaritalStatus] = useState('');
+  const [maritialStatus, setMaritalStatus] = useState('');
   const [annualIncome, setAnnualIncome] = useState('');
+  const [success, setSuccess ]=useState('');
   const [address, setAddress] = useState({
     village_street: '',
     city: '',
@@ -16,14 +17,14 @@ const WomenSchemeForm = () => {
     country: '',
   });
   const [errors, setErrors] = useState({});
-
-  const handleSubmit = (e) => {
+  const[formerror, setFormError ]=useState('');
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
       firstName,
       lastName,
       phoneNumber,
-      maritalStatus,
+      maritialStatus,
       annualIncome,
       address,
     };
@@ -39,10 +40,10 @@ const WomenSchemeForm = () => {
     if (!phoneNumber) {
       errorObject.phoneNumber = 'Phone number is required *';
     }
-    if (!maritalStatus) {
-      errorObject.maritalStatus = 'Marital status is required *';
+    if (!maritialStatus) {
+      errorObject.maritialStatus = 'Marital status is required *';
     }
-    if (!annualIncome) {
+    if (!annualIncome ) {
       errorObject.annualIncome = 'Annual income is required *';
     }
     if (!address.village_street) {
@@ -75,7 +76,7 @@ const WomenSchemeForm = () => {
         userId = JSON.parse(userId).userId;
 
 
-        // get schemeId  
+        // get schemeId from localstorage
         let schemeId = localStorage.getItem("schemeMasterData");
         if (!schemeId) {
           throw new Error("Scheme master data not found in local storage");
@@ -83,15 +84,15 @@ const WomenSchemeForm = () => {
         schemeId = JSON.parse(schemeId).schemeId;
 // console.log("schemeId",schemeId)
       try{
-        const resp=WomenSchemeService.postWomenSchemeData(formData,userId,schemeId);
+        const resp=await WomenSchemeService.postWomenSchemeData(formData,userId,schemeId);
         console.log(resp);
-
+        setSuccess("Applied Successfully !!!")
+          // alert("applied for womenScheme Successfully...")
       }catch(error)
       {
+        setFormError(error);
         console.log("error",error);
       }
-      
-
 
       
     }
@@ -107,6 +108,8 @@ const WomenSchemeForm = () => {
               First Name:
               <input
                 type="text"
+                id="firstName"
+                name="firstName"
                 value={firstName}
                 className="form-control"
                 onChange={(event) => setFirstName(event.target.value)}
@@ -121,6 +124,8 @@ const WomenSchemeForm = () => {
               <input
                 type="text"
                 value={lastName}
+                id="lastName"
+                name="lastName"
                 className="form-control"
                 onChange={(event) => setLastName(event.target.value)}
                 placeholder="Enter last name"
@@ -136,7 +141,10 @@ const WomenSchemeForm = () => {
               <input
                 type="tel"
                 value={phoneNumber}
+                id="phoneNumber"
+                name="phoneNumber"
                 className="form-control"
+                pattern="[0-9]{10}"
                 onChange={(event) => setPhoneNumber(event.target.value)}
                 placeholder="Enter phone number"
               />
@@ -147,7 +155,9 @@ const WomenSchemeForm = () => {
             <label>
               Marital Status:
               <select
-                value={maritalStatus}
+                value={maritialStatus}
+                id="maritialStatus"
+                name="maritialStatus"
                 className="form-control"
                 onChange={(event) => setMaritalStatus(event.target.value)}
               >
@@ -155,7 +165,7 @@ const WomenSchemeForm = () => {
                 <option value="MARRIED">Married</option>
                 <option value="SINGLE">Single</option>
               </select>
-              {errors.maritalStatus && <div style={{ color: 'red' }}>{errors.maritalStatus}</div>}
+              {errors.maritialStatus && <div style={{ color: 'red' }}>{errors.maritialStatus}</div>}
             </label>
           </div>
         </div>
@@ -166,6 +176,9 @@ const WomenSchemeForm = () => {
               <input
                 type="number"
                 value={annualIncome}
+                id="annualIncome"
+                name="annualIncome"
+                min={1}
                 className="form-control"
                 onChange={(event) => setAnnualIncome(event.target.value)}
                 placeholder="Enter annual income"
@@ -180,6 +193,8 @@ const WomenSchemeForm = () => {
                 type="text"
                 value={address.village_street}
                 className="form-control"
+                id="village_street"
+                name="village_street"
                 onChange={(event) => setAddress({ ...address, village_street: event.target.value })}
                 placeholder="Enter street name"
               />
@@ -194,6 +209,8 @@ const WomenSchemeForm = () => {
               <input
                 type="text"
                 value={address.city}
+                id="city"
+                name="city"
                 className="form-control"
                 onChange={(event) => setAddress({ ...address, city: event.target.value })}
                 placeholder="Enter city name"
@@ -208,6 +225,8 @@ const WomenSchemeForm = () => {
                 type="text"
                 value={address.state}
                 className="form-control"
+                id="state"
+                name="state"
                 onChange={(event) => setAddress({ ...address, state: event.target.value })}
                 placeholder="Enter state"
               />
@@ -222,6 +241,9 @@ const WomenSchemeForm = () => {
               <input
                 type="text"
                 value={address.zip}
+                id="zip"
+                name="zip"
+                pattern='[0-9]{6}'
                 className="form-control"
                 onChange={(event) => setAddress({ ...address, zip: event.target.value })}
                 placeholder="Enter zip code"
@@ -235,6 +257,8 @@ const WomenSchemeForm = () => {
               <input
                 type="text"
                 value={address.country}
+                id="country"
+                name="country"
                 className="form-control"
                 onChange={(event) => setAddress({ ...address, country: event.target.value })}
                 placeholder="Enter country"
@@ -246,6 +270,10 @@ const WomenSchemeForm = () => {
         <button type="submit" className="btn btn-primary btn-block">
           Apply
         </button>
+        
+        {/* setting success or error popup when form is submitted */}
+        {formerror && <div className="alert alert-danger"><b>{formerror}</b></div>}
+        {success && <div className="alert alert-success"><b>{success}</b></div>}
       </form>
     </div>
   );
