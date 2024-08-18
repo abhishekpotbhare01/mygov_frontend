@@ -3,27 +3,29 @@ import { Navbar } from "./Navbar";
 import "./SchemeStatus.css";
 import { NavLink } from "react-router-dom";
 function SchemeStatus() {
+
+
   let data = JSON.parse(localStorage.getItem("resp"));
   const results = data.map((obj) => {
     const scheme = obj.scheme || obj.schemeMaster;
-    let status =  "";
-            if(obj.womenScheme)
-               status=obj.womenScheme.status
-            else if(obj.studentScheme)
-                status= obj.studentScheme.status
-            else
-                status=obj.farmerScheme.status;
+    let status = "";
+    if (obj.womenScheme)
+      status = obj.womenScheme.status
+    else if (obj.studentScheme)
+      status = obj.studentScheme.status
+    else
+      status = obj.farmerScheme.status;
     // obj.womenScheme ? obj.womenScheme.status : obj.studentScheme.status;
-     
+
     return {
       schemeId: scheme.schemeId,
       schemeName: scheme.schemeName,
       status: status,
-      applicationDate:obj.womenScheme.applicationDate,
+      // applicationDate:obj.womenScheme.applicationDate,
       // comment:obj.womenScheme.comment
     };
   });
-  console.log("results ui:",results)
+  console.log("results ui:", results)
 
 
   return (
@@ -36,7 +38,7 @@ function SchemeStatus() {
             <a href="schemepage">SchemePage</a> <span>&gt;</span> <span>Scheme Status</span>
           </nav>
         </header>
-        
+
         <div className="d-flex justify-content-center">
           <table class="table table-striped">
             <thead>
@@ -44,7 +46,7 @@ function SchemeStatus() {
                 <th scope="col">SR.NO</th>
                 <th scope="col">SchemeId</th>
                 <th scope="col">SchemeName</th>
-                <th scope="col">Applied Date</th>
+                {/* <th scope="col">Applied Date</th> */}
                 {/* <th scope="col">Comment</th> */}
                 <th scope="col">Status</th>
               </tr>
@@ -56,7 +58,7 @@ function SchemeStatus() {
                     <td scope="row">{i + 1}</td>
                     <td>{e.schemeId}</td>
                     <td>{e.schemeName}</td>
-                    <td>{e.applicationDate}</td>
+                    {/* <td>{e.applicationDate}</td> */}
                     {/* <td>{e.comment}</td> */}
                     <td>{e.status}</td>
                   </tr>

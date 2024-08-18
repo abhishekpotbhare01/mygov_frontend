@@ -12,6 +12,7 @@ import './HomePage.css'
 
 
 function HomePage() {
+  
   useEffect(() => {
     $(document).ready(function () {
       $('.carousel').carousel();

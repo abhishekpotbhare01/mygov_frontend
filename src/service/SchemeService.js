@@ -48,10 +48,8 @@ const GetAllSchemes = async () => {
 };
 
 const getAllSchemeId = async (userid) => {
-
   try {
 
-    
     const resp = await SchemeClient.get("/userId/" + parseInt(userid));
     return resp.data;
   } catch (error) {

@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Navbar } from '../Navbar';
 import StudentService from '../../service/StudentService';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+import Swal from 'sweetalert2';
 const StudentSchemeForm = () => {
   const navigate = useNavigate();
 
@@ -101,11 +104,10 @@ const StudentSchemeForm = () => {
         // localStorage.setItem("studentData", JSON.stringify(studentData))
 
         // get login userId
-        let userId = localStorage.getItem("loginResponse");
+        let userId = sessionStorage.getItem("userId");
         if (!userId) {
           throw new Error("Login response not found in local storage");
         }
-        userId = JSON.parse(userId).userId;
 
 
         // get schemeId  
@@ -120,11 +122,22 @@ const StudentSchemeForm = () => {
         const resp = await StudentService.AddStudentScheme(studentData, userId, schemeId);
         console.log("Student Scheme post response: ", resp);
         alert("Student Added....!!!");
-        // navigate("/schemepage");
-
+        Swal.fire({
+          title: 'Success!',
+          text: 'You have successfully applied for the scheme!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+     
+          navigate("/schemepage"); 
+        });
+    
       } catch (error) {
-        console.error('Error adding student:', error);
-
+        console.log("===========777777  ", error);
+  
+        toast.error(error.message); 
+        console.log("Error:", error);
+        navigate("/schemepage");
       }
     }
   };

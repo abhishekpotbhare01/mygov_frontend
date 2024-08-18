@@ -11,7 +11,14 @@ function Schemes(props) {
   const handleClick = (e) => {
     e.preventDefault();
     setSchemeMasterData(props.scheme);
-    localStorage.setItem("schemeMasterData", JSON.stringify(props.scheme));
+    const { schemeId, formPath } = props.scheme;
+  
+    // Store scheme data in local storage
+    setSchemeMasterData(props.scheme);
+    sessionStorage.setItem("schemeId", JSON.stringify(props.scheme));
+    
+    // Navigate with state
+    navigate(formPath, { state: { schemeId } });
     navigate(props.scheme.formPath);
   };
   return (

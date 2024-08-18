@@ -47,6 +47,7 @@ const LoginUser = async (loginUser) => {
         const resp = await UserClient.post('/login', loginUser);
 
         sessionStorage.setItem('jwttoken', resp.data.accessToken);
+        sessionStorage.setItem('userId', resp.data.userDto.userId);
         console.log("abhishek22 :: ", sessionStorage.getItem('jwttoken'));
 
         return resp.data;

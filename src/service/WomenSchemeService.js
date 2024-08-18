@@ -11,7 +11,8 @@ const womenScheme=axios.create({
 const postWomenSchemeData= async(FormData,userId,schemeId)=>{
 
   try{
-       const url = `/${userId}?schemeId=${schemeId}`;
+
+       const url = `/${userId}?schemeId=${2}`;
        const resp=await womenScheme.post(url,FormData);
        console.log("data:",resp.data)
        return resp.data;

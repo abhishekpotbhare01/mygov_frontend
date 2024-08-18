@@ -11,7 +11,7 @@ const AddStudentScheme = async (studentData, userId, schemeId) => {
   try {
     console.log("type of marks : " + typeof studentData.studentDetails.marks);
     console.log("type of familyIncome : " + typeof studentData.familyIncome);
-    const url = "/" + userId + "?schemeId=" + schemeId;
+    const url = "/" + userId + "?schemeId=" + 3;
     const resp = await StudentClient.post(url, studentData);
 
     return resp.data;

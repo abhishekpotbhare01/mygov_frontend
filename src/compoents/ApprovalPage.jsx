@@ -4,102 +4,80 @@ import './ApprovalPage.css'; // Import custom CSS if you have additional styling
 import AdminService from '../service/AdminService';
 import Swal from 'sweetalert2';
 
-
-
 function ApprovalPage() {
-
   const navigate = useNavigate();
-
-
   const location = useLocation();
 
   const [scheme, setScheme] = useState();
   const [subScheme, setSubScheme] = useState();
   const [comment, setComment] = useState('');
-
-  const [applicationId, setApplicationId] = useState()
+  const [applicationId, setApplicationId] = useState();
 
   useEffect(() => {
+
     setScheme(location.state.application.scheme);
 
     if (location.state.application.farmerScheme) {
       setSubScheme(location.state.application.farmerScheme);
-
       setApplicationId(location.state.application.farmerScheme.farmerSchemeId);
     } else if (location.state.application.studentScheme) {
-      setSubScheme(location.state.application.farmerScheme);
-
-      setApplicationId(location.state.application.farmerScheme.farmerSchemeId);
-    }
-    else if (location.state.application.womenScheme) {
+      setSubScheme(location.state.application.studentScheme);
+      setApplicationId(location.state.application.studentScheme.studentSchemeId);
+    } else if (location.state.application.womenScheme) {
       setSubScheme(location.state.application.womenScheme);
-
-      setApplicationId(location.state.application.womenScheme.id);
+      setApplicationId(location.state.application.womenScheme.womenSchemeId);
     } else {
       console.log("No Scheme found");
     }
-  }, [scheme, subScheme, comment, location.state]);
+  }, [location.state]);
 
   const handleApprove = async (status, comment, schemeConst) => {
     try {
+      const approvalPayload = {
+        applicationId,
+        status: status.toUpperCase(),
+        comments: comment,
+        schemeConst
+      };
 
-      const approvalPayLoad = {
-        "applicationId": applicationId,
-        "status": status.toUpperCase(),
-        "comments": comment,
-        "schemeConst": schemeConst
-      }
+      console.log("xxxxxxxxxxxx payload ", approvalPayload);
 
-      const resp = await AdminService.updateApplicationStatus(approvalPayLoad);
+      await AdminService.updateApplicationStatus(approvalPayload);
       sessionStorage.setItem('schemeId', location.state.application.schemeId);
+
+
       Swal.fire({
         title: 'Approved!',
         text: `Application has been approved with the following comment: "${comment}"`,
         icon: 'success',
         confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-popup-class', // Optional custom CSS class for styling
-        },
       });
       navigate(-1, {
         state: {
           schemeId: location.state.application.schemeId
         }
       });
-
     } catch (error) {
       console.error('Error approving application:', error);
-
-
       Swal.fire({
         title: 'Error!',
         text: 'There was an issue approving the application. Please try again.',
         icon: 'error',
         confirmButtonText: 'OK',
       });
-      navigate(-1, {
-        state: {
-          schemeId: location.state.application.schemeId
-        }
-      });
     }
-  }
+  };
 
   const handleReject = async (status, comment, schemeConst) => {
     try {
+      const rejectPayload = {
+        applicationId,
+        status: status.toUpperCase(),
+        comments: comment,
+        schemeConst
+      };
 
-      const rejecetdPayLoad = {
-        "applicationId": applicationId,
-        "status": status.toUpperCase(),
-        "comments": comment,
-        "schemeConst": schemeConst
-
-      }
-
-      // Add logic to handle rejection
-
-
-      const resp = await AdminService.updateApplicationStatus(rejecetdPayLoad);
+      await AdminService.updateApplicationStatus(rejectPayload);
       console.log('Rejected with comment:', comment);
       sessionStorage.setItem('schemeId', location.state.application.schemeId);
       Swal.fire({
@@ -107,17 +85,12 @@ function ApprovalPage() {
         text: `Application has been rejected with the following comment: "${comment}"`,
         icon: 'warning',
         confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-popup-class', // Optional custom CSS class for styling
-        },
       });
       navigate(-1, {
         state: {
           schemeId: location.state.application.schemeId
         }
       });
-
-
     } catch (error) {
       console.error('Error rejecting application:', error);
       Swal.fire({
@@ -126,19 +99,16 @@ function ApprovalPage() {
         icon: 'error',
         confirmButtonText: 'OK',
       });
-
-      navigate(-1, {
-        state: {
-          schemeId: location.state.application.schemeId
-        }
-      });
-
     }
   };
 
-  console.log(scheme);
-
-
+  const handleGoBack = () => {
+    navigate(-1, {
+      state: {
+        schemeId: location.state.application.schemeId
+      }
+    });
+  };
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
@@ -161,14 +131,13 @@ function ApprovalPage() {
               {subScheme && (
                 <>
                   <h6 className="card-subtitle mb-2 text-muted">Farmer Details:</h6>
-                  <p className="card-text"><strong>Name:</strong> {subScheme.userId.firstName} {subScheme.userId.lastName}</p>
+                  {/* <p className="card-text"><strong>Name:</strong> {subScheme.user.firstName} {subScheme.user.lastName}</p> */}
                   <p className="card-text"><strong>Land Details:</strong> {subScheme.landDetails}</p>
                   <p className="card-text"><strong>Income:</strong> ₹{subScheme.income}</p>
                   <p className="card-text"><strong>Address:</strong> {subScheme.address.village_street}, {subScheme.address.city}, {subScheme.address.state}, {subScheme.address.zip}, {subScheme.address.country.toUpperCase()}</p>
                   <p className="card-text"><strong>Status:</strong> {subScheme.status}</p>
                 </>
               )}
-
             </div>
           </div>
         </div>
@@ -182,18 +151,30 @@ function ApprovalPage() {
               onChange={(e) => setComment(e.target.value)}
             ></textarea>
           </div>
-          <button
-            className="btn btn-success me-2"
-            onClick={() => handleApprove('Approved', comment, scheme.schemeConst)}
-          >
-            Approve
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => handleReject('Rejected', comment, scheme.schemeConst)}
-          >
-            Reject
-          </button>
+          {subScheme?.status !== 'APPROVED' && subScheme?.status !== 'REJECTED' && (
+            <>
+              <button
+                className="btn btn-success me-2"
+                onClick={() => handleApprove('Approved', comment, scheme.schemeConst)}
+              >
+                Approve
+              </button>
+              <button
+                className="btn btn-danger"
+                onClick={() => handleReject('Rejected', comment, scheme.schemeConst)}
+              >
+                Reject
+              </button>
+            </>
+          )}
+          {subScheme?.status === 'APPROVED' || subScheme?.status === 'REJECTED' ? (
+            <button
+              className="btn btn-secondary"
+              onClick={handleGoBack}
+            >
+              Go Back
+            </button>
+          ) : null}
         </div>
       </div>
     </div>

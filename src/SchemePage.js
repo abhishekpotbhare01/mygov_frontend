@@ -36,11 +36,13 @@ function SchemePage() {
       // throw new Error("Login response not found in local storage");
     }
 let resp=null;
-    let userid2 = JSON.parse(userId).userId;
+    let userid2 = JSON.parse(userId).userDto.userId;
     console.log(userid2)
     const fetchAllSchemeId = async (userid2) => {
       try {
+    
        resp = await SchemeService.getAllSchemeId(userid2);
+
         setAllSchemeId(resp)   
         console.log("resp inside functoion ",resp)
     
@@ -55,10 +57,10 @@ let resp=null;
       let status =  "";
               if(obj.womenScheme)
                  status=obj.womenScheme.status
-              else if(obj.studentScheme)
+               if(obj.studentScheme)
                   status= obj.studentScheme.status
-              else
-                  status=obj.farmerscheme.status;
+              if(obj.farmerscheme)
+                  status=obj.farmerscheme.status
       // obj.womenScheme ? obj.womenScheme.status : obj.studentScheme.status;
        
       return {

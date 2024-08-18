@@ -11,6 +11,8 @@ import AddNewScheme from "./compoents/AddNewScheme";
 import FarmerSchemeRegistration from "./compoents/FarmerSchemeRegistration";
 import StudentSchemeForm from "./compoents/Forms/StudentSchemeForm";
 import WomenSchemeForm from "./compoents/Forms/WomenSchemeForm";
+//FarmerSchemeForm
+import FarmerSchemeForm from "./compoents/Forms/FarmerSchemeForm";
 import ApprovalPage from "./compoents/ApprovalPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
@@ -25,13 +27,14 @@ function App() {
         <Routes>
           <Route path="/approval-page" element={<ApprovalPage />} />
 
-          <Route path="/Addnewscheme" element={<AddNewScheme></AddNewScheme>} />
+          <Route path="/addnewscheme" element={<AddNewScheme></AddNewScheme>} />
           <Route path="/" element={<Homepagecomponent />} />
           <Route path="/home" element={<Homepagecomponent />} />
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin-login" element={<LoginPage name="Admin" />} />
           <Route path="/user-login" element={<LoginPage />} />
+          <Route path="/user/login" element={<LoginPage />} />
           <Route path="/schemepage" element={<SchemePage />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
@@ -39,6 +42,12 @@ function App() {
             path="/schemepage/student-scheme-form"
             element={<StudentSchemeForm />}
           />
+
+          <Route
+            path="/schemepage/farmer-scheme-form"
+            element={< FarmerSchemeForm />}
+          />
+
           {/* 
           <Route
             path="/schemepage/farmer-scheme-form"
@@ -55,8 +64,8 @@ function App() {
               < />
             </Route> */}
           <Route path="/scheme-status" element={<SchemeStatus />} />
-           <Route path="/forgotpassword"element={<ForgotPassword/>}
-           />
+          <Route path="/forgotpassword" element={<ForgotPassword />}
+          />
         </Routes>
       </Router>
     </div>

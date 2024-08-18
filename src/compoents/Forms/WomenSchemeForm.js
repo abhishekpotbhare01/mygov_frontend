@@ -8,7 +8,7 @@ const WomenSchemeForm = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [maritialStatus, setMaritalStatus] = useState('');
   const [annualIncome, setAnnualIncome] = useState('');
-  const [success, setSuccess ]=useState('');
+  const [success, setSuccess] = useState('');
   const [address, setAddress] = useState({
     village_street: '',
     city: '',
@@ -17,7 +17,7 @@ const WomenSchemeForm = () => {
     country: '',
   });
   const [errors, setErrors] = useState({});
-  const[formerror, setFormError ]=useState('');
+  const [formerror, setFormError] = useState('');
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
@@ -43,7 +43,7 @@ const WomenSchemeForm = () => {
     if (!maritialStatus) {
       errorObject.maritialStatus = 'Marital status is required *';
     }
-    if (!annualIncome ) {
+    if (!annualIncome) {
       errorObject.annualIncome = 'Annual income is required *';
     }
     if (!address.village_street) {
@@ -52,12 +52,11 @@ const WomenSchemeForm = () => {
     if (!address.city) {
       errorObject.city = 'City is required *';
     }
-    if(!address.state){
-      errorObject.state= 'State is required *';
+    if (!address.state) {
+      errorObject.state = 'State is required *';
     }
-    if(!address.zip)
-    {
-      errorObject.zip= 'Zip code is Required *';
+    if (!address.zip) {
+      errorObject.zip = 'Zip code is Required *';
     }
     if (!address.country) {
       errorObject.country = 'Country name is required *';
@@ -67,34 +66,37 @@ const WomenSchemeForm = () => {
       setErrors(errorObject);
     } else {
       console.log('Form data:', formData);
-      
-        // get login userId
-        let userId = localStorage.getItem("loginResponse");
-        if (!userId) {
-          throw new Error("Login response not found in local storage");
-        }
-        userId = JSON.parse(userId).userId;
+
+      // get login userId
+      let userId = localStorage.getItem("loginResponse");
+
+      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx---------", localStorage.getItem("loginResponse"))
+      if (!userId) {
+        throw new Error("Login response not found in local storage");
+      }
+      userId = JSON.parse(userId).userDto.userId;
 
 
-        // get schemeId from localstorage
-        let schemeId = localStorage.getItem("schemeMasterData");
-        if (!schemeId) {
-          throw new Error("Scheme master data not found in local storage");
-        }
-        schemeId = JSON.parse(schemeId).schemeId;
-// console.log("schemeId",schemeId)
-      try{
-        const resp=await WomenSchemeService.postWomenSchemeData(formData,userId,schemeId);
+      // get schemeId from localstorage
+      let schemeId = localStorage.getItem("schemeMasterData");
+      if (!schemeId) {
+        throw new Error("Scheme master data not found in local storage");
+      }
+      schemeId = JSON.parse(schemeId).schemeId;
+      // console.log("schemeId",schemeId)
+      try {
+        const resp = await WomenSchemeService.postWomenSchemeData(formData, userId, schemeId);
         console.log(resp);
         setSuccess("Applied Successfully !!!")
-          // alert("applied for womenScheme Successfully...")
-      }catch(error)
-      {
+        // alert("applied for womenScheme Successfully...")
+
+        navigator("/schemepage")
+      } catch (error) {
         setFormError(error);
-        console.log("error",error);
+        console.log("error", error);
       }
 
-      
+
     }
   };
 
@@ -230,7 +232,7 @@ const WomenSchemeForm = () => {
                 onChange={(event) => setAddress({ ...address, state: event.target.value })}
                 placeholder="Enter state"
               />
-               {errors.state && <div style={{ color: 'red' }}>{errors.state}</div>}
+              {errors.state && <div style={{ color: 'red' }}>{errors.state}</div>}
             </label>
           </div>
         </div>
@@ -270,7 +272,7 @@ const WomenSchemeForm = () => {
         <button type="submit" className="btn btn-primary btn-block">
           Apply
         </button>
-        
+
         {/* setting success or error popup when form is submitted */}
         {formerror && <div className="alert alert-danger"><b>{formerror}</b></div>}
         {success && <div className="alert alert-success"><b>{success}</b></div>}

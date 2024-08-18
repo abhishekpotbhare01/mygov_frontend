@@ -7,12 +7,10 @@ export function AdminNavbar() {
 
   const handleClick = () => setClick(!click);
 
-
   const handleLogout=()=>{
 
     sessionStorage.removeItem("jwttoken");
     window.location.href="/admin-login";
-
 
   }
 

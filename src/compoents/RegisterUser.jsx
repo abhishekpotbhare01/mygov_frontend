@@ -4,8 +4,6 @@ import UserService from '../service/UserService';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterUser = () => {
-
-
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         firstName: '',
@@ -16,6 +14,9 @@ const RegisterUser = () => {
         confirmPassword: ''
     });
 
+    const [errorMessages, setErrorMessages] = useState({});
+    const [successMessage, setSuccessMessage] = useState('');
+
     const handleChange = (e) => {
         e.preventDefault();
         const { name, value } = e.target;
@@ -24,28 +25,56 @@ const RegisterUser = () => {
             [name]: value
         });
     };
-    const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+
+    const validateField = (name, value) => {
+        let message = '';
+        switch (name) {
+            case 'firstName':
+                if (!value) message = 'First Name is required';
+                break;
+            case 'email':
+                if (!value) message = 'Email is required';
+                else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) message = 'Invalid email format';
+                break;
+            case 'age':
+                if (!value) message = 'Age is required';
+                else if (isNaN(value) || value <= 0) message = 'Age must be a positive number';
+                break;
+            case 'password':
+                if (!value) message = 'Password is required';
+                break;
+            case 'confirmPassword':
+                if (value !== formData.password) message = 'Passwords do not match';
+                break;
+            default:
+                break;
+        }
+        setErrorMessages((prev) => ({ ...prev, [name]: message }));
+    };
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        validateField(name, value);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
-            setErrorMessage('Passwords do not match');
-            setSuccessMessage('');
-            return;
-        }
+
+        // Validate all fields before submission
+        Object.keys(formData).forEach((key) => validateField(key, formData[key]));
+        if (Object.values(errorMessages).some((msg) => msg)) return; // Prevent submit if there are errors
+
         try {
             const resp = await UserService.RegisterUser(formData);
             setSuccessMessage('Registration Successful');
-            setErrorMessage('');
-            console.log(resp);
-            alert("Registration Successful")
+            setErrorMessages({});
+            alert("Registration Successful");
             navigate('/user-login');
         } catch (error) {
             console.error("error while registration ", error);
-            alert("Registration Failed..!!")
+            alert("Registration Failed..!!");
         }
-    }
+    };
 
     const [showPassword, setShowPassword] = useState(false);
     const handleTogglePassword = () => setShowPassword(!showPassword);
@@ -57,7 +86,9 @@ const RegisterUser = () => {
                 <h2 className="text-center mb-4">Register User</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group d-flex align-items-center mb-4">
-                        <label htmlFor="firstName" className="me-3" style={{ minWidth: '120px' }}>First Name <span style={{ color: 'red' }}>*</span></label>
+                        <label htmlFor="firstName" className="me-3" style={{ minWidth: '120px' }}>
+                            First Name <span style={{ color: 'red' }}>*</span>
+                        </label>
                         <input
                             type="text"
                             className="form-control"
@@ -65,9 +96,11 @@ const RegisterUser = () => {
                             name="firstName"
                             value={formData.firstName}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="Enter First Name"
                             required
                         />
+                        {errorMessages.firstName && <small className="text-danger">{errorMessages.firstName}</small>}
                     </div>
                     <div className="form-group d-flex align-items-center mb-4">
                         <label htmlFor="lastName" className="me-3" style={{ minWidth: '120px' }}>Last Name</label>
@@ -79,11 +112,13 @@ const RegisterUser = () => {
                             value={formData.lastName}
                             onChange={handleChange}
                             placeholder='Enter Last Name'
-
+                            onBlur={handleBlur}
                         />
                     </div>
                     <div className="form-group d-flex align-items-center mb-4">
-                        <label htmlFor="email" className="me-3" style={{ minWidth: '120px' }}>Email <span style={{ color: 'red' }}>*</span></label>
+                        <label htmlFor="email" className="me-3" style={{ minWidth: '120px' }}>
+                            Email <span style={{ color: 'red' }}>*</span>
+                        </label>
                         <input
                             type="email"
                             className="form-control"
@@ -91,12 +126,16 @@ const RegisterUser = () => {
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder='Enter Email'
                             required
                         />
+                        {errorMessages.email && <small className="text-danger">{errorMessages.email}</small>}
                     </div>
                     <div className="form-group d-flex align-items-center mb-4">
-                        <label htmlFor="age" className="me-3" style={{ minWidth: '120px' }}>Age <span style={{ color: 'red' }}>*</span></label>
+                        <label htmlFor="age" className="me-3" style={{ minWidth: '120px' }}>
+                            Age <span style={{ color: 'red' }}>*</span>
+                        </label>
                         <input
                             type="number"
                             className="form-control"
@@ -104,12 +143,16 @@ const RegisterUser = () => {
                             name="age"
                             value={formData.age}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder='Enter Age'
                             required
                         />
+                        {errorMessages.age && <small className="text-danger">{errorMessages.age}</small>}
                     </div>
                     <div className="form-group d-flex align-items-center mb-4">
-                        <label htmlFor="password" className="me-3" style={{ minWidth: '120px' }}>Password <span style={{ color: 'red' }}>*</span></label>
+                        <label htmlFor="password" className="me-3" style={{ minWidth: '120px' }}>
+                            Password <span style={{ color: 'red' }}>*</span>
+                        </label>
                         <input
                             type={showPassword ? 'text' : 'password'}
                             className="form-control"
@@ -117,6 +160,7 @@ const RegisterUser = () => {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder='Enter Password'
                             required
                         />
@@ -126,9 +170,12 @@ const RegisterUser = () => {
                         >
                             {/* Password visibility toggle icon */}
                         </div>
+                        {errorMessages.password && <small className="text-danger">{errorMessages.password}</small>}
                     </div>
                     <div className="form-group d-flex align-items-center mb-4">
-                        <label htmlFor="confirmPassword" className="me-3" style={{ minWidth: '120px' }}>Re-enter Password <span style={{ color: 'red' }}>*</span></label>
+                        <label htmlFor="confirmPassword" className="me-3" style={{ minWidth: '120px' }}>
+                            Re-enter Password <span style={{ color: 'red' }}>*</span>
+                        </label>
                         <input
                             type="password"
                             className="form-control"
@@ -136,12 +183,14 @@ const RegisterUser = () => {
                             name="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder='Re-Enter Password'
                             required
                         />
+                        {errorMessages.confirmPassword && <small className="text-danger">{errorMessages.confirmPassword}</small>}
                     </div>
 
-                    {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+                    {errorMessages.form && <div className="alert alert-danger">{errorMessages.form}</div>}
                     {successMessage && <div className="alert alert-success">{successMessage}</div>}
                     <div className="d-flex justify-content-between mt-4">
                         <button type="submit" className="btn btn-primary btn-block col-md-8" style={{ marginLeft: "0px" }}>

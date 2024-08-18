@@ -20,7 +20,6 @@ const AdminDashboard = () => {
     const initialSchemeId = location.state?.schemeId;
     const [schemeId, setSchemeId] = useState(initialSchemeId || 1);
 
-
     useEffect(() => {
         var schemeId1 = location.state?.schemeId;
         if (schemeId1) {
@@ -33,8 +32,8 @@ const AdminDashboard = () => {
 
                 setSchemesDetails(schemesRes);
 
-                console.log('Schemes Abhishek ', schemesDetails);
 
+                console.log("===============", schemeId, activeTab);
 
                 const applicationsRes = await AdminService.GetAllSchemesById(schemeId, activeTab, navigate);
                 setApplications(applicationsRes);
@@ -55,7 +54,7 @@ const AdminDashboard = () => {
                 }
             }
         };
- 
+
         fetchData();
 
 
@@ -107,8 +106,6 @@ const AdminDashboard = () => {
         <>
             <AdminNavbar />
             <div>
-
-
                 <div className='schemelist' style={{ display: 'flex', alignItems: 'center' }}>
                     <label htmlFor="schemelist">Choose Scheme</label>
                     <select name="schemelist" id="schemelist" onChange={(event) => handleSchemeChange(event)}>
@@ -165,14 +162,18 @@ const AdminDashboard = () => {
                             ))}
                         </div>
                     </div>
- 
+
                     <div className="col-md-9">
                         {applications.length > 0 ? (
                             applications.map((app) => (
                                 <div
-                                    key={`${app.farmerScheme ? app.farmerScheme.userId.userId : app.studentScheme ? app.studentScheme.userId.userId : app.id}`}
+                                    key={app.farmerScheme ? app.farmerScheme.userId.userId
+                                        : app.studentScheme ? app.studentScheme.user.userId
+                                            : app.womenScheme ? app.womenScheme.userId.userId
+                                                : app.id}
                                     className="card mb-3 shadow-sm"
                                 >
+
                                     <div className="card-body d-flex justify-content-between align-items-center">
                                         {app.farmerScheme ? (
                                             <div className="text-end">
@@ -184,7 +185,7 @@ const AdminDashboard = () => {
                                         ) : app.studentScheme ? (
                                             <div className="text-end">
                                                 <h5 className="mb-1 text-success">
-                                                    {app.studentScheme.userId.firstName.toUpperCase()} {app.studentScheme.userId.lastName.toUpperCase()}
+                                                    {app.studentScheme.user.firstName.toUpperCase()} {app.studentScheme.user.lastName.toUpperCase()}
                                                 </h5>
                                                 <p className="mb-0 text-muted text-primary">{app.scheme.schemeName}</p>
                                             </div>
@@ -228,5 +229,5 @@ const AdminDashboard = () => {
         </>
     );
 };
- 
+
 export default AdminDashboard;

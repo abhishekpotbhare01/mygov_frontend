@@ -10,16 +10,23 @@ const AdminClient = axios.create(
         }
     }
 );
-
 const SetSession = async (token) => {
     sessionStorage.setItem('jwttoken', token);
     return;
 };
+AdminClient.interceptors.request.use(config => {
+    const token = sessionStorage.getItem('jwttoken');
+
+    console.log("Abhishek    ",token);
+    config.headers.Authorization = `Bearer ${token}`;
+});
+
+
 
 const GetSessionToken = async () => {
     const token = sessionStorage.getItem("jwttoken");
     if (!token) {
-        return null; // or throw an error
+        return null;
     }
     return token;
 };
@@ -33,9 +40,6 @@ const GetAllSchemesById = async (schemeId, status, navigate) => {
         const response = await AdminClient.get(`/${schemeId}`, {
             params: {
                 status: `${status.toUpperCase()}`
-            },
-            headers: {
-                'Authorization': `Bearer ${token}`
             }
         });
         return response.data;
@@ -51,7 +55,6 @@ const GetAllSchemesById = async (schemeId, status, navigate) => {
                 },
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // navigate('/admin-login');
                     window.location.href = '/admin-login';
                 }
             });
@@ -73,11 +76,7 @@ const updateApplicationStatus = async (approvalPayLoad) => {
         if (!token) {
             throw new Error('No token found');
         }
-        const resp = await AdminClient.post("/approval", approvalPayLoad, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const resp = await AdminClient.post("/approval", approvalPayLoad);
         console.log(resp.data);
     } catch (error) {
         Swal.fire({
